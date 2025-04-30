@@ -17,6 +17,7 @@ export default function SignUp(){
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(model),
   });
@@ -24,6 +25,7 @@ export default function SignUp(){
   const onSubmit = (data) => {
     console.log("Login data:", data);
     alert("Form Submitted")
+    reset(); 
   };
     return(
 
@@ -47,7 +49,7 @@ export default function SignUp(){
         </div>
         <div className="w-1/2">
         <div className="p-6 w-full h-full flex flex-col overflow-auto">
-  <form action={handleSubmit(onSubmit)} className="w-full  flex flex-col items-start justify-start gap-2">
+  <form onSubmit={handleSubmit(onSubmit)} className="w-full  flex flex-col items-start justify-start gap-2">
     <h3 className="text-2xl font-semibold text-blue-500 mb-2">Create Account</h3>
 
     <label htmlFor="firstname" className="text-sm font-medium text-gray-700">First Name</label>

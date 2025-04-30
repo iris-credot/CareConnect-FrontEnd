@@ -14,6 +14,7 @@ export default function Login(){
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -21,6 +22,7 @@ export default function Login(){
   const onSubmit = (data) => {
     console.log("Login data:", data);
     alert("Form Submitted")
+    reset(); 
   };
 
     return(
