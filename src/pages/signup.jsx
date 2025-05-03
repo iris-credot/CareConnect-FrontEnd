@@ -29,29 +29,31 @@ export default function SignUp(){
   };
     return(
 
-        <div className="bg-[#f3f5ff] h-screen overflow-hidden flex items-center  justify-center w-screen ">
-          <div className="w-full max-w-4xl h-[650px] bg-white rounded-xl flex flex-row p-2 gap-1  ">
-        <div className="w-1/2 flex flex-col p-2  bg-slate-100 rounded-md h-full">
-        <div className="w-full bg-white h-2/6 flex justify-center items-center">
+        <div className="md:bg-[#f3f5ff] h-screen overflow-hidden flex md:items-center  md:justify-center w-screen md:p-0 p-6 ">
+          <div className="w-full max-w-4xl h-full md:h-auto bg-white rounded-xl flex md:flex-row flex-col p-2 md:gap-1 gap-14 ">
+        <div className="md:w-1/2 w-full flex flex-col p-2 md:bg-slate-100  rounded-md md:h-full h-[20%]">
+        <div className="w-full bg-white h-2/4 flex justify-center items-center">
             <img src={Icon} alt="" />
         </div>
-        <div className="w-full bg-white h-3/6 flex flex-col justify-center items-center gap-4">
+        <div className="w-full bg-white h-1/4 flex flex-col justify-center items-center gap-4">
             <div className="">
-                <h2 className="text-3xl ">Welcome to</h2>
+                <h2 className="text-lg sm:text-2xl md:text-3xl font-bold mb-2 text-gray-800 ">Welcome to CareConnect</h2>
             </div>
-            <div >
-                <h2 className="text-2xl ">CareConnect</h2>
-            </div>
+           
         </div>
-        <div className="w-full bg-white h-1/6">
-            <p className="ml-6 p-4 text-xs"> Your health. Our priority. Thousands of doctors ready to help!</p>
+        <div className="w-full bg-white h-1/4">
+            <p className="ml-4 md:ml-6 p-4 text-xs text-center md:text-left"> Your health. Our priority. Thousands of doctors ready to help!</p>
         </div>
         </div>
-        <div className="w-1/2">
-        <div className="p-6 w-full h-full flex flex-col overflow-auto">
-  <form onSubmit={handleSubmit(onSubmit)} className="w-full  flex flex-col items-start justify-start gap-2">
-    <h3 className="text-2xl font-semibold text-blue-500 mb-2">Create Account</h3>
-
+        <div className="md:w-1/2 w-full flex justify-center md:justify-start h-[80%]">
+        <div className="p-6 w-full h-full flex flex-col max-w-md overflow-auto md:overflow-visible">
+  <form onSubmit={handleSubmit(onSubmit)} className="w-full  flex flex-col items-start  gap-2 ">
+  <div className="flex justify-center md:justify-start w-full">
+    <h3 className="text-2xl font-semibold text-blue-500 md:mb-2 mb-5">
+      Create Account
+    </h3>
+  </div>
+      
     <label htmlFor="firstname" className="text-sm font-medium text-gray-700">First Name</label>
     <input
     {...register("firstname")}
@@ -73,15 +75,15 @@ export default function SignUp(){
      {errors.lastname && (
                 <p className="text-red-500 text-sm">{errors.lastname.message}</p>
               )}
-    <div className="flex w-full gap-2">
-      <div className="flex flex-col w-2/3 max-w-md gap-2 ">
+    <div className="flex md:flex-row flex-col w-full gap-2 ">
+      <div className="flex flex-col md:w-2/3 w-full max-w-md gap-2 ">
     <label htmlFor="username" className="text-gray-700 font-medium text-sm">Username</label>
     <input {...register("username")} type="username" placeholder="Enter your username"  className="p-2 border border-gray-300 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
     {errors.username && (
                 <p className="text-red-500 text-sm">{errors.username.message}</p>
               )}
     </div>
-    <div className="flex flex-col w-1/3 max-w-md gap-2">
+    <div className="flex flex-col md:w-1/3 max-w-md gap-2 w-full">
     <label htmlFor="gender" className="text-gray-700 font-medium text-sm">Gender</label>
     <select
     {...register("gender")}
@@ -117,7 +119,7 @@ export default function SignUp(){
 
     <button
       type="submit"
-      className="mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200 w-full max-w-md"
+      className="mt-10 md:mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200 w-full max-w-md"
     >
       Create an account
     </button>
