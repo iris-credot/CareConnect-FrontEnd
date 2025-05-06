@@ -12,12 +12,17 @@ import SideBarDoctor from './components/sideBarDoctor';
 import SideBarAdmin from './components/sideBarAdmin';
 import LayoutDoctor from './layout/layoutDoctor';
 import LayoutAdmin from './layout/layoutAdmin';
+import NotFound from './pages/notFound';
+import Loading from './pages/loadingPage';
+import CreateAppointment from './pages/AddAppointmentPage';
+import AddFood from './pages/addFoodsPage';
+import AddSport from './pages/addSportsPage';
 function App() {
 
 
   return (
     <>
-   <LayoutDoctor/>
+   <AddSport/>
     </>
   )
 }
