@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +14,7 @@ const schema = z.object({
 });
 
 export default function VerifyEmail() {
+  const navigate = useNavigate();
   const [code, setCode] = useState(["", "", "", "", "", "", ""]); // State for the 7 input digits
   const {
     register,
@@ -103,7 +105,7 @@ export default function VerifyEmail() {
             <button
               type="submit"
               className="mt-4 bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-200"
-              
+              onClick={() => navigate("/createdoc")}
             >
               Verify Email
             </button>

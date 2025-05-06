@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -18,6 +19,7 @@ const schema = z.object({
 });
 
 export default function CreateDoctor() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -99,6 +101,7 @@ export default function CreateDoctor() {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition"
+            onClick={() => navigate("/login")}
           >
             Submit Info
           </button>

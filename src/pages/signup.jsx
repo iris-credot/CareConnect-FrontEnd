@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Icon from '../assets/icon.png'
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +14,7 @@ const model =z.object({
   password:z.string().min(6,"Password must be atleast 6 characters")
 });
 export default function SignUp(){
+   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -120,6 +122,7 @@ export default function SignUp(){
     <button
       type="submit"
       className="mt-10 md:mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200 w-full max-w-md"
+      onClick={() => navigate("/verify")}
     >
       Create an account
     </button>
@@ -128,7 +131,7 @@ export default function SignUp(){
   <div className="w-full mt-6  text-sm text-gray-600 max-w-md">
     <div className="flex gap-1">
       <p>Already have an account?</p>
-      <p className="text-blue-500 hover:underline cursor-pointer">Signup</p>
+      <p className="text-blue-500 hover:underline cursor-pointer" onClick={() => navigate("/login")}>Login</p>
     </div>
   </div>
 </div>

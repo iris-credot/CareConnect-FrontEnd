@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +11,7 @@ const schema = z.object({
 });
 
 export default function Login() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -76,7 +78,8 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="mt-10 md:mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200 w-full max-w-md"
+                className="mt-10 md:mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200 w-full max-w-md" 
+                onClick={() => navigate("/dashboard")}
               >
                 Log In
               </button>
@@ -85,9 +88,9 @@ export default function Login() {
             <div className="w-full mt-6 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center text-sm text-gray-600 gap-2 max-w-md">
   <div className="flex gap-1">
     <p>New User?</p>
-    <p className="text-blue-500 hover:underline cursor-pointer">Signup</p>
+    <p className="text-blue-500 hover:underline cursor-pointer"onClick={() => navigate("/signup")}>Signup</p>
   </div>
-  <p className="text-blue-500 hover:underline cursor-pointer">Forgot your password?</p>
+  <p className="text-blue-500 hover:underline cursor-pointer"onClick={() => navigate("/forgotpass")}>Forgot your password?</p>
 </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +11,7 @@ const schema = z.object({
 });
 
 export default function ForgotPassword() {
+    const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -64,6 +66,7 @@ export default function ForgotPassword() {
             <button
               type="submit"
               className="mt-4 bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-200"
+              onClick={() => navigate("/resetpass")}
             >
               Send Reset Link
             </button>
