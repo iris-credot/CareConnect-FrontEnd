@@ -11,7 +11,7 @@ import SearchBar from './components/searchBar';
 import SideBarDoctor from './components/sideBarDoctor';
 import SideBarAdmin from './components/sideBarAdmin';
 import LayoutDoctor from './layout/layoutDoctor';
-
+import LayoutAdmin from './layout/layoutAdmin';
 function App() {
 
 
