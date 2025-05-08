@@ -4,7 +4,7 @@ import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
+import useDocumentTitle from "../customHooks/documentTitle";
 // Zod schema
 const schema = z
   .object({
@@ -20,6 +20,7 @@ const schema = z
   });
 
 export default function ResetPassword() {
+  useDocumentTitle("Reset-Password");
   const navigate = useNavigate();
   const {
     register,
@@ -94,7 +95,7 @@ export default function ResetPassword() {
             <button
               type="submit"
               className="mt-2 bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-200"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/")}
             >
               Reset Password
             </button>

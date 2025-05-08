@@ -1,6 +1,6 @@
 import useDocumentTitle from "../customHooks/documentTitle";
-export default function DoctorDashboard(){
-    useDocumentTitle("Doctor Dashboard");
+export default function ReportsAdmin(){
+    useDocumentTitle("Report-Analytics");
     return(
 
         <div></div>

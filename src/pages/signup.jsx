@@ -4,7 +4,7 @@ import Icon from '../assets/icon.png'
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
+import useDocumentTitle from "../customHooks/documentTitle";
 const model =z.object({
   firstname:z.string().min(3,"First Name must be atleast 3 characters"),
   lastname:z.string().min(4,"Last Name must be atleast 4 characters"),
@@ -14,6 +14,7 @@ const model =z.object({
   password:z.string().min(6,"Password must be atleast 6 characters")
 });
 export default function SignUp(){
+  useDocumentTitle("SignUp");
    const navigate = useNavigate();
   const {
     register,
@@ -131,7 +132,7 @@ export default function SignUp(){
   <div className="w-full mt-6  text-sm text-gray-600 max-w-md">
     <div className="flex gap-1">
       <p>Already have an account?</p>
-      <p className="text-blue-500 hover:underline cursor-pointer" onClick={() => navigate("/login")}>Login</p>
+      <p className="text-blue-500 hover:underline cursor-pointer" onClick={() => navigate("/")}>Login</p>
     </div>
   </div>
 </div>

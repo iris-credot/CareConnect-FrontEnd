@@ -2,6 +2,7 @@ import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useDocumentTitle from "../customHooks/documentTitle";
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +23,7 @@ const FoodRecommendationSchema = z.object({
 });
 
 export default function FoodRecommendationForm() {
+  useDocumentTitle("New Nutrition Suggetion");
   const {
     register,
     control,

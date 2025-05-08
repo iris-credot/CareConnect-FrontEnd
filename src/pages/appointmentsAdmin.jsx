@@ -1,6 +1,6 @@
 import useDocumentTitle from "../customHooks/documentTitle"
-export default function AdminDashboard(){
-    useDocumentTitle("Admin Dashboard");
+export default function AppointmentsAdmin(){
+    useDocumentTitle("Appointments");
     return(
 
         <div></div>

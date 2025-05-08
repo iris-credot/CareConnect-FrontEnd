@@ -34,25 +34,25 @@ export default function SideBarDoctor() {
           <p><strong>Dr IRIS</strong></p>
         </div>
         <nav className="flex flex-col mt-16 space-y-6 ml-6">
-          <NavLink to="/doctorDashboard" className={linkClasses}>
+          <NavLink to="/doctor/dashboard" className={linkClasses}>
             <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
           </NavLink>
-          <NavLink to="/appointments" className={linkClasses}>
+          <NavLink to="/doctor/appointments" className={linkClasses}>
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
           </NavLink>
-          <NavLink to="/patients" className={linkClasses}>
+          <NavLink to="/doctor/patients" className={linkClasses}>
             <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Patients
           </NavLink>
-          <NavLink to="/sportNutri" className={linkClasses}>
+          <NavLink to="/doctor/sportNutri" className={linkClasses}>
             <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Sports & Nutrition
           </NavLink>
-          <NavLink to="/reports" className={linkClasses}>
+          <NavLink to="/doctor/reports" className={linkClasses}>
             <FontAwesomeIcon icon={faFileMedical} className="mr-4 " /> Reports
           </NavLink>
-          <NavLink to="/notifications" className={linkClasses}>
+          <NavLink to="/doctor/notifications" className={linkClasses}>
             <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
           </NavLink>
-          <NavLink to="/settings" className={linkClasses}>
+          <NavLink to="/doctor/settings" className={linkClasses}>
             <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
           </NavLink>
         </nav>
@@ -78,25 +78,25 @@ export default function SideBarDoctor() {
             </button>
           </div>
           <nav className="flex flex-col space-y-6">
-            <NavLink to="/doctorDashboard" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to="/doctor/dashboard" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faHome} className="mr-4" /> Home
             </NavLink>
-            <NavLink to="/appointments" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to="/doctor/appointments" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
             </NavLink>
-            <NavLink to="/patients" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to="/doctor/patients" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faUserInjured} className="mr-4" /> Patients
             </NavLink>
-            <NavLink to="/sportNutri" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to="/doctor/sportNutri" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faAppleAlt} className="mr-4" /> Sports & Nutrition
             </NavLink>
-            <NavLink to="/reports" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to="/doctor/reports" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faFileMedical} className="mr-4" /> Reports
             </NavLink>
-            <NavLink to="/notifications" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to="/doctor/notifications" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faBell} className="mr-4" /> Notifications
             </NavLink>
-            <NavLink to="/settings" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to="/doctor/settings" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCog} className="mr-4" /> Settings
             </NavLink>
           </nav>

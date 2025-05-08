@@ -4,13 +4,14 @@ import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
+import useDocumentTitle from "../customHooks/documentTitle";
 const schema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 export default function Login() {
+  useDocumentTitle("Login");
   const navigate = useNavigate();
   const {
     register,

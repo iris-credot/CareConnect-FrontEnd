@@ -1,7 +1,8 @@
 import React from "react";
 import NOT from "../assets/notFoound.PNG";
-
+import useDocumentTitle from "../customHooks/documentTitle";
 export default function NotFound() {
+  useDocumentTitle("NotFound");
   return (
     <div className="flex flex-col md:flex-row justify-center items-center w-full h-screen px-4 gap-6 bg-gray-50">
       <div className="md:w-1/2 w-full flex justify-center">

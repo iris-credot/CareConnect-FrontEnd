@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import useDocumentTitle from "../customHooks/documentTitle";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Zod schema for validation
@@ -14,6 +15,7 @@ const appointmentSchema = z.object({
 });
 
 export default function CreateAppointment() {
+  useDocumentTitle("New Appointment");
   const {
     register,
     handleSubmit,

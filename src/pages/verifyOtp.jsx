@@ -4,7 +4,7 @@ import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
+import useDocumentTitle from "../customHooks/documentTitle";
 // Zod schema for validation
 const schema = z.object({
   code: z
@@ -14,6 +14,7 @@ const schema = z.object({
 });
 
 export default function VerifyEmail() {
+  useDocumentTitle("Verify-Email");
   const navigate = useNavigate();
   const [code, setCode] = useState(["", "", "", "", "", "", ""]); // State for the 7 input digits
   const {
