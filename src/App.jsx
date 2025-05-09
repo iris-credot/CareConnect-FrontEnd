@@ -26,6 +26,7 @@ import ReportsDoctor from './pages/reportDoctor';
 import ReportsAdmin from './pages/reportAdmin';
 import SettingsPage from './pages/settings';
 import PatientsDetails from './pages/patientView';
+import UpdatePassword from './pages/updatepass';
     
 function App() {
 
@@ -54,7 +55,8 @@ function App() {
       <Route path="patients" element={<PatientsPage />} />
       <Route path="patients/view" element={<PatientsDetails />} />
       <Route path="reports" element={<ReportsDoctor/>} />
-      <Route path="settings" element={<SettingsPage />} />
+      <Route path="settings" element={<SettingsPage />}/>
+      <Route path="settings/update-pass" element={<UpdatePassword />} />
     </Route>
 
      {/* Protected / Admin Layout Routes */}
@@ -68,6 +70,7 @@ function App() {
       <Route path="patients/view" element={<PatientsDetails />} />
       <Route path="reports" element={<ReportsAdmin />} />
       <Route path="settings" element={<SettingsPage />} />
+      <Route path="settings/update-pass" element={<UpdatePassword />} />
     </Route>
   </Routes>
   )

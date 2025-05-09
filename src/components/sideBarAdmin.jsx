@@ -10,7 +10,8 @@ import {
   faBell,
   faCog,
   faBars,
-  faTimes
+  faTimes,
+  faRightFromBracket
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBarAdmin() {
@@ -39,7 +40,7 @@ export default function SideBarAdmin() {
           <img src={Icon} alt="Logo" className="w-14 h-14 object-cover rounded-full" />
           <p><strong>User IRIS</strong></p>
         </div>
-        <nav className="flex flex-col mt-16 space-y-6 ml-6">
+        <nav className="flex flex-col mt-16 space-y-4 ml-6">
           <NavLink to="/admin/dashboard" className={linkClasses}>
             <FontAwesomeIcon icon={faHome} className="mr-4" /> Home
           </NavLink>
@@ -60,6 +61,9 @@ export default function SideBarAdmin() {
           </NavLink>
           <NavLink to="/admin/settings" className={linkClasses}>
             <FontAwesomeIcon icon={faCog} className="mr-4" /> Settings
+          </NavLink>
+          <NavLink to="/" className={linkClasses}>
+          <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" />Logout
           </NavLink>
         </nav>
       </div>
@@ -98,6 +102,9 @@ export default function SideBarAdmin() {
             <NavLink to="/admin/settings" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCog} className="mr-4" /> Settings
             </NavLink>
+            <NavLink to="/" className={linkClasses} onClick={toggleSidebar}>
+          <FontAwesomeIcon icon={faRightFromBracket} className="mr-4 " />Logout
+          </NavLink>
           </nav>
         </div>
       )}

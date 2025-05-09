@@ -11,7 +11,8 @@ import {
   faBell,
   faCog,
   faBars,
-  faTimes
+  faTimes,
+  faRightFromBracket
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBarDoctor() {
@@ -33,7 +34,7 @@ export default function SideBarDoctor() {
           <img src={Icon} alt="Logo" className="w-14 h-14 object-cover rounded-full" />
           <p><strong>Dr IRIS</strong></p>
         </div>
-        <nav className="flex flex-col mt-16 space-y-6 ml-6">
+        <nav className="flex flex-col mt-16 space-y-4 ml-6 ">
           <NavLink to="/doctor/dashboard" className={linkClasses}>
             <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
           </NavLink>
@@ -55,6 +56,9 @@ export default function SideBarDoctor() {
           <NavLink to="/doctor/settings" className={linkClasses}>
             <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
           </NavLink>
+            <NavLink to="/" className={linkClasses}>
+                    <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" />Logout
+           </NavLink>
         </nav>
       </div>
 
@@ -68,7 +72,7 @@ export default function SideBarDoctor() {
       {/* Mobile Sidebar Drawer */}
       {isOpen && (
         <div className="fixed top-0 left-0 w-64 h-full bg-gray-100 shadow-lg z-50 p-4 flex flex-col md:hidden dark:bg-black dark:text-white">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 ">
             <div className="flex items-center gap-3">
               <img src={Icon} alt="Logo" className="w-10 h-10 object-cover rounded-full" />
               <p><strong>Dr IRIS</strong></p>
@@ -99,6 +103,9 @@ export default function SideBarDoctor() {
             <NavLink to="/doctor/settings" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCog} className="mr-4" /> Settings
             </NavLink>
+            <NavLink to="/" className={linkClasses} onClick={toggleSidebar}>
+                    <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" />Logout
+           </NavLink>
           </nav>
         </div>
       )}
