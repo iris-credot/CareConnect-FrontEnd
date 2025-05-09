@@ -50,13 +50,13 @@ export default function FoodRecommendationForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-4xl mx-auto p-8 bg-white rounded-2xl shadow-xl space-y-8"
+      className="max-w-4xl mx-auto p-8 bg-white rounded-2xl shadow-xl space-y-8 dark:bg-gray-800"
     >
       <h2 className="text-3xl font-bold  text-blue-500">🍎 Food Recommendation</h2>
 
       {/* Patient */}
       <div>
-          <label className="block font-semibold mb-1">Patient</label>
+          <label className="block font-semibold mb-1 dark:text-white">Patient</label>
           <select
             {...register("patient")}
             className="w-full border p-2 rounded"
@@ -70,7 +70,7 @@ export default function FoodRecommendationForm() {
 
       {/* Recommended Foods */}
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold border-b pb-1 text-gray-700">Recommended Foods</h3>
+        <h3 className="text-xl font-semibold border-b pb-1 text-gray-700 dark:text-white">Recommended Foods</h3>
 
         {fields.map((item, index) => (
           <div
@@ -133,7 +133,7 @@ export default function FoodRecommendationForm() {
 
       {/* Notes */}
       <div>
-        <label className="block mb-1 text-sm font-medium text-gray-700">Additional Notes</label>
+        <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-white">Additional Notes</label>
         <textarea
           {...register("notes")}
           placeholder="e.g. Avoid sugar in the evening..."
@@ -146,7 +146,7 @@ export default function FoodRecommendationForm() {
       <div>
         <button
           type="submit"
-          className="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 font-semibold"
+          className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-700 font-semibold"
         >
           Submit Recommendation
         </button>

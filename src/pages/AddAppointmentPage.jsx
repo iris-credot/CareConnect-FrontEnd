@@ -29,16 +29,16 @@ export default function CreateAppointment() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-blue-700">Create New Appointment</h2>
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded shadow-lg dark:bg-gray-700 dark:text-white">
+      <h2 className="text-3xl font-bold mb-6 text-center text-blue-700 dark:text-blue-500">Create New Appointment</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
        
         <div>
-          <label className="block font-semibold mb-1">Patient</label>
+          <label className="block font-semibold mb-1 ">Patient</label>
           <select
             {...register("patient")}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:text-gray-800"
           >
             <option value="">-- Select patient --</option>
             <option value="1">John Doe</option>
@@ -52,7 +52,7 @@ export default function CreateAppointment() {
           <label className="block font-semibold mb-1">Doctor</label>
           <select
             {...register("doctor")}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:text-gray-800"
           >
             <option value="">-- Select doctor --</option>
             <option value="1">Dr. Adams</option>
@@ -67,7 +67,7 @@ export default function CreateAppointment() {
           <input
             type="date"
             {...register("date")}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:text-gray-800"
           />
           {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
         </div>
@@ -79,7 +79,7 @@ export default function CreateAppointment() {
             type="text"
             {...register("timeSlot")}
             placeholder="e.g. 10:00 AM - 10:30 AM"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:text-gray-800"
           />
           {errors.timeSlot && <p className="text-red-500 text-sm">{errors.timeSlot.message}</p>}
         </div>
@@ -90,7 +90,7 @@ export default function CreateAppointment() {
           <textarea
             {...register("reason")}
             rows="3"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:text-gray-800"
           />
         </div>
 
@@ -100,7 +100,7 @@ export default function CreateAppointment() {
           <textarea
             {...register("notes")}
             rows="2"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:text-gray-800"
           />
         </div>
 

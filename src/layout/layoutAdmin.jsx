@@ -15,7 +15,7 @@ export default function LayoutAdmin() {
         <SideBarAdmin />
 
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto bg-white p-4">
+        <main className="flex-1 overflow-y-auto bg-white p-4 dark:bg-gray-900">
           <Outlet />
         </main>
       </div>
