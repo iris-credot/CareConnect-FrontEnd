@@ -1,69 +1,61 @@
+import useDocumentTitle from "../customHooks/documentTitle";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import useDocumentTitle from "../customHooks/documentTitle";
 
-export default function DoctorsPage() {
-  useDocumentTitle("Doctors");
+export default function PatientsAll() {
+  useDocumentTitle("Patients");
     const navigate = useNavigate();
-  const [doctors, setDoctors] = useState([]);
+  const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchDoctorsWithUsers = async () => {
+  const fetchPatientsWithUsers = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("Token not found");
-        setDoctors([]);
         return;
       }
 
-      const response = await axios.get(
-        "https://careconnect-api-v2kw.onrender.com/api/doctor/all",
+      const patientRes = await axios.get(
+        "https://careconnect-api-v2kw.onrender.com/api/patient/all",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      const doctorsData = response.data?.doctors;
-      if (!Array.isArray(doctorsData)) {
-        console.error("Expected doctors array, got:", doctorsData);
-        setDoctors([]);
-        return;
-      }
+      const patients = patientRes.data.patients;
 
-      const detailedDoctors = await Promise.all(
-        doctorsData.map(async (doctor) => {
+      const detailedPatients = await Promise.all(
+        patients.map(async (patient) => {
           try {
             const userRes = await axios.get(
-              `https://careconnect-api-v2kw.onrender.com/api/doctor/getDoctorByUser/${doctor.user}`,
+              `https://careconnect-api-v2kw.onrender.com/api/patient/getPatientByUser/${patient.user}`,
               {
                 headers: { Authorization: `Bearer ${token}` },
               }
             );
 
             return {
-              ...doctor,
+              ...patient,
               user: userRes.data?.user || {},
             };
           } catch (err) {
-            console.error(`Error fetching user for doctor ${doctor._id}:`, err);
-            return doctor; // fallback, doctor without user details
+            console.error("Error fetching user for patient:", err);
+            return patient;
           }
         })
       );
 
-      setDoctors(detailedDoctors);
+      setPatients(detailedPatients);
     } catch (error) {
-      console.error("Error fetching doctors:", error);
-      setDoctors([]);
+      console.error("Error fetching patients:", error);
     } finally {
       setLoading(false);
     }
   };
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this doctor?");
+const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this patient?");
     if (!confirmDelete) return;
 
     try {
@@ -74,26 +66,27 @@ export default function DoctorsPage() {
       }
 
       await axios.delete(
-        `https://careconnect-api-v2kw.onrender.com/api/doctor/delete/${id}`,
+        `https://careconnect-api-v2kw.onrender.com/api/patient/delete/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      setDoctors((prev) => prev.filter((doctor) => doctor._id !== id));
+      // Update state by filtering out the deleted patient
+      setPatients((prev) => prev.filter((patient) => patient._id !== id));
     } catch (error) {
-      console.error("Error deleting doctor:", error);
-      alert("Failed to delete doctor.");
+      console.error("Error deleting patient:", error);
+      alert("Failed to delete patient.");
     }
   };
 
   useEffect(() => {
-    fetchDoctorsWithUsers();
+    fetchPatientsWithUsers();
   }, []);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 dark:text-white">All Doctors</h1>
+      <h1 className="text-2xl font-bold mb-4 dark:text-white">All Patients</h1>
 
       {loading ? (
         <p className="text-gray-600 dark:text-white">Loading...</p>
@@ -107,24 +100,21 @@ export default function DoctorsPage() {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(doctors) &&
-              doctors.map((doctor, index) => (
+            {Array.isArray(patients) &&
+              patients.map((citizen, index) => (
                 <tr key={index} className="hover:bg-blue-950">
                   <td className="border border-gray-300 p-2">
-                    {doctor.user?.firstName || "N/A"} {doctor.user?.lastName || ""}
+                    {citizen.user?.firstName || "N/A"} {citizen.user?.lastName || "N/A"}
                   </td>
                   <td className="border border-gray-300 p-2">
-                    {doctor.user?.email || "N/A"}
+                    {citizen.user?.email || "N/A"}
                   </td>
                   <td className="border border-gray-300 p-2 text-center space-x-2">
                     <button className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
-                    onClick={() => navigate(`/admin/doctors/view/${doctor._id || doctor.user?._id}`)}>
+                    onClick={() => navigate(`/admin/patients/view/${citizen._id || citizen.user?._id}`)}>
                       View
                     </button>
-                    <button
-                      className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
-                      onClick={() => handleDelete(doctor._id)}
-                    >
+                    <button className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"     onClick={() => handleDelete(citizen._id)}>
                       Delete
                     </button>
                   </td>

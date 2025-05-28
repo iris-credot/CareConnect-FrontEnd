@@ -27,6 +27,10 @@ import ReportsAdmin from './pages/reportAdmin';
 import SettingsPage from './pages/settings';
 import PatientsDetails from './pages/patientView';
 import UpdatePassword from './pages/updatepass';
+import Home from './pages/home';  
+import PatientsAll from './pages/allPatients';
+import DoctorsDetails from './pages/docview';
+import ViewAppointment from './pages/appoiview';
     
 function App() {
 
@@ -34,7 +38,8 @@ function App() {
   return (
     <Routes>
     {/* Public routes */}
-    <Route path="/" element={<Login />} />
+   <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<SignUp />} />
     <Route path="/createdoc" element={<CreateDoctor />} />
     <Route path="/verify" element={<VerifyEmail />} />
@@ -63,11 +68,13 @@ function App() {
      <Route path="/admin" element={<LayoutAdmin />}>
       <Route path="dashboard" element={<AdminDashboard />} />
       <Route path="appointments" element={<AppointmentsAdmin />} />
-      <Route path="appointments/create-appointment" element={<CreateAppointment />} />
+      <Route path="appointments/view/:id" element={<ViewAppointment />} />
+       <Route path="appointments/create" element={<CreateAppointment />} />
       <Route path="doctors" element={<DoctorsPage />} />
+        <Route path="doctors/view/:id" element={<DoctorsDetails />} />
       <Route path="notifications" element={<NotificationsPage />} />
-      <Route path="patients" element={<PatientsPage />} />
-      <Route path="patients/view" element={<PatientsDetails />} />
+      <Route path="patients" element={<PatientsAll />} />
+      <Route path="patients/view/:id" element={<PatientsDetails />} />
       <Route path="reports" element={<ReportsAdmin />} />
       <Route path="settings" element={<SettingsPage />} />
       <Route path="settings/update-pass" element={<UpdatePassword />} />

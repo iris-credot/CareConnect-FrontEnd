@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import useDocumentTitle from "../customHooks/documentTitle";
@@ -12,7 +13,8 @@ const schema = z.object({
 
 export default function Login() {
   useDocumentTitle("Login");
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,10 +24,58 @@ export default function Login() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Login data:", data);
-    alert("Form Submitted");
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("https://careconnect-api-v2kw.onrender.com/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        credentials: "include" 
+      });
+  
+      const result = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(result.message || "Login failed");
+      }
+  
+      const user = result?.user;
+      const token = result?.token;
+      const userRole = user?.role;
+  
+      if (!userRole || !token) {
+        throw new Error("Missing user role or token in response");
+      }
+  
+      // Save to localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", userRole);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("userId", user?._id);
+  
+      toast.success("Login successful");
+      reset();
+  
+      // Navigate based on role
+      switch (userRole.toLowerCase()) {
+        case "patient":
+          setTimeout(() => navigate("/patient/dashboard"), 1500);
+          break;
+        case "doctor":
+          setTimeout(() => navigate("/doctor/dashboard"), 1500);
+          break;
+        case "admin":
+          setTimeout(() => navigate("/admin/dashboard"), 1500);
+          break;
+        default:
+          throw new Error("Unknown user role");
+      }
+  
+    } catch (error) {
+      toast.error(`Login error: ${error.message}`);
+    }
   };
 
   return (
@@ -66,21 +116,21 @@ export default function Login() {
               <label htmlFor="password" className="text-sm font-medium text-gray-700">Password</label>
               <input
                 {...register("password")}
-                type="password"
+                 type={showPassword ? "text" : "password"}
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full max-w-md"
                 placeholder="Enter your password"
               />
               {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
               <div className="flex items-center gap-2">
-                <input type="checkbox" id="remember" className="accent-blue-500" />
-                <label htmlFor="remember" className="text-sm text-gray-600">Show Password</label>
+                <input type="checkbox"   id="showPassword" className="accent-blue-500"  onChange={() => setShowPassword(!showPassword)}/>
+                <label htmlFor="showPassword" className="text-sm text-gray-600">Show Password</label>
               </div>
 
               <button
                 type="submit"
                 className="mt-10 md:mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200 w-full max-w-md" 
-                onClick={() => navigate("/dashboard")}
+              
               >
                 Log In
               </button>
