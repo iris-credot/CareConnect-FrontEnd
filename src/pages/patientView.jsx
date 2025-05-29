@@ -6,6 +6,8 @@ export default function PatientsDetails() {
   useDocumentTitle("Patients-View");
 
   const { id } = useParams();
+  console.log("Fetched patient ID from URL:", id);
+
   const [patient, setPatient] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,19 +34,21 @@ export default function PatientsDetails() {
 
 useEffect(() => {
   const fetchPatient = async () => {
+    setLoading(true); // Start loading early
+    setError(""); // Reset previous errors
+
     try {
       const token = localStorage.getItem("token");
       const userStr = localStorage.getItem("user");
 
       if (!token || !userStr) {
-        setError("Missing token or user info.");
-        setLoading(false);
-        return;
+        throw new Error("Missing token or user info.");
       }
 
       const loggedInUser = JSON.parse(userStr);
       const userId = loggedInUser._id;
 
+      // Fetch patient
       const patientRes = await fetch(
         `https://careconnect-api-v2kw.onrender.com/api/patient/getPatient/${id}`,
         {
@@ -54,9 +58,13 @@ useEffect(() => {
       const patientData = await patientRes.json();
       console.log("Patient data raw:", patientData);
 
-      // Unwrap the nested patient object here
+      if (!patientRes.ok || !patientData.patient) {
+        throw new Error(patientData.message || "Failed to fetch patient data.");
+      }
+
       setPatient(patientData.patient);
 
+      // Fetch user
       const userRes = await fetch(
         `https://careconnect-api-v2kw.onrender.com/api/user/getOne/${userId}`,
         {
@@ -66,7 +74,11 @@ useEffect(() => {
       const userData = await userRes.json();
       console.log("User data raw:", userData);
 
-      setUser(userData);
+      if (!userRes.ok || !userData.user) {
+        throw new Error(userData.message || "Failed to fetch user data.");
+      }
+
+      setUser(userData.user);
 
     } catch (err) {
       console.error("Error:", err.message);
@@ -78,6 +90,8 @@ useEffect(() => {
 
   fetchPatient();
 }, [id]);
+
+
 
 
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;

@@ -2,9 +2,9 @@ import useDocumentTitle from "../customHooks/documentTitle";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import Loading from "./loadingPage";
 export default function PatientsAll() {
-  useDocumentTitle("Patients");
+  useDocumentTitle("CareConnect-Patients");
     const navigate = useNavigate();
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -89,7 +89,7 @@ const handleDelete = async (id) => {
       <h1 className="text-2xl font-bold mb-4 dark:text-white">All Patients</h1>
 
       {loading ? (
-        <p className="text-gray-600 dark:text-white">Loading...</p>
+           <Loading/>
       ) : (
         <table className="w-full border-collapse border border-gray-300 dark:text-white">
           <thead>
@@ -102,7 +102,7 @@ const handleDelete = async (id) => {
           <tbody>
             {Array.isArray(patients) &&
               patients.map((citizen, index) => (
-                <tr key={index} className="hover:bg-blue-950">
+                <tr key={index} className="dark:hover:bg-blue-950 hover:bg-slate-200">
                   <td className="border border-gray-300 p-2">
                     {citizen.user?.firstName || "N/A"} {citizen.user?.lastName || "N/A"}
                   </td>

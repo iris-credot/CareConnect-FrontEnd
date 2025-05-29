@@ -2,10 +2,10 @@ import useDocumentTitle from "../customHooks/documentTitle";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import Loading from "./loadingPage";
 export default function AppointmentsAdmin() {
      const navigate = useNavigate();
-  useDocumentTitle("Appointments");
+  useDocumentTitle("CareConnect-Appointments");
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -109,7 +109,7 @@ export default function AppointmentsAdmin() {
       <h1 className="text-2xl font-bold mb-4 dark:text-white">All Appointments</h1>
 
       {loading ? (
-        <p className="text-gray-600 dark:text-white">Loading...</p>
+            <Loading/>
       ) : (
         <table className="w-full border-collapse border border-gray-300 dark:text-white">
           <thead>
@@ -123,7 +123,7 @@ export default function AppointmentsAdmin() {
           </thead>
           <tbody>
             {appointments.map((appt) => (
-              <tr key={appt._id} className="hover:bg-blue-950">
+              <tr key={appt._id} className="dark:hover:bg-blue-950 hover:bg-slate-200">
                 <td className="border border-gray-300 p-2">
                   {appt.patientDetails?.firstName || "N/A"}{" "}
                   {appt.patientDetails?.lastName || ""}

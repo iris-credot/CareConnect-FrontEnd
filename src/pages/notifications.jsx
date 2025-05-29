@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import Loading from "./loadingPage";
 export default function NotificationsPage() {
  
 
@@ -74,7 +74,7 @@ export default function NotificationsPage() {
     <div className="flex flex-col dark:text-white p-6">
       <h1 className="font-bold text-4xl mb-10">Notifications</h1>
 
-      {loading && <p>Loading...</p>}
+      {loading &&    <Loading/>}
       {error && <p className="text-red-500">{error}</p>}
       {hasNoNotifications && !loading && <p>No notifications to show.</p>}
 

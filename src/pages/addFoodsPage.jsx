@@ -1,10 +1,9 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useDocumentTitle from "../customHooks/documentTitle";
-
-// Font Awesome
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -23,12 +22,17 @@ const FoodRecommendationSchema = z.object({
 });
 
 export default function FoodRecommendationForm() {
-  useDocumentTitle("New Nutrition Suggetion");
+  useDocumentTitle("New Nutrition Suggestion");
+  const navigate = useNavigate();
+
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(FoodRecommendationSchema),
     defaultValues: {
@@ -43,8 +47,56 @@ export default function FoodRecommendationForm() {
     name: "recommendedFoods",
   });
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          "https://careconnect-api-v2kw.onrender.com/api/patient/all",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { patients: arr } = await res.json();
+        setPatients(Array.isArray(arr) ? arr : []);
+      } catch (err) {
+        console.error("Error fetching patients:", err);
+        setPatients([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPatients();
+  }, []);
+
+  const onSubmit = async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(
+        "https://careconnect-api-v2kw.onrender.com/api/foods/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      if (!res.ok) {
+        const errBody = await res.json();
+        throw new Error(errBody.message || res.statusText);
+      }
+      navigate(-1);
+    } catch (err) {
+      console.error("Failed to create food recommendation:", err);
+      alert("Error: " + err.message);
+    }
   };
 
   return (
@@ -52,27 +104,42 @@ export default function FoodRecommendationForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-4xl mx-auto p-8 bg-white rounded-2xl shadow-xl space-y-8 dark:bg-gray-800"
     >
-      <h2 className="text-3xl font-bold  text-blue-500">🍎 Food Recommendation</h2>
+      <h2 className="text-3xl font-bold text-blue-500">🍎 Food Recommendation</h2>
 
       {/* Patient */}
-      <div>
+      {loading ? (
+        <div>Loading patients…</div>
+      ) : (
+        <div>
           <label className="block font-semibold mb-1 dark:text-white">Patient</label>
           <select
             {...register("patient")}
             className="w-full border p-2 rounded"
+            disabled={isSubmitting}
+            defaultValue=""
           >
-            <option value="">-- Select patient --</option>
-            <option value="1">John Doe</option>
-            <option value="2">Jane Smith</option>
+            <option value="" disabled>
+              -- Select patient --
+            </option>
+            {patients.map((p) => (
+              <option key={p._id} value={p._id}>
+                {p.user?.firstName} {p.user?.lastName}
+              </option>
+            ))}
           </select>
-          {errors.patient && <p className="text-red-500 text-sm">{errors.patient.message}</p>}
+          {errors.patient && (
+            <p className="text-red-500 text-sm">{errors.patient.message}</p>
+          )}
         </div>
+      )}
 
       {/* Recommended Foods */}
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold border-b pb-1 text-gray-700 dark:text-white">Recommended Foods</h3>
+        <h3 className="text-xl font-semibold border-b pb-1 text-gray-700 dark:text-white">
+          Recommended Foods
+        </h3>
 
-        {fields.map((item, index) => (
+        {fields.map((item, i) => (
           <div
             key={item.id}
             className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-gray-50 p-4 rounded-xl border relative"
@@ -81,12 +148,15 @@ export default function FoodRecommendationForm() {
               <label className="block text-sm font-medium text-gray-700">Food Name</label>
               <input
                 type="text"
-                {...register(`recommendedFoods.${index}.name`)}
+                {...register(`recommendedFoods.${i}.name`)}
                 placeholder="e.g. Apple"
                 className="w-full border p-2 rounded-lg mt-2"
+                disabled={isSubmitting}
               />
-              {errors.recommendedFoods?.[index]?.name && (
-                <p className="text-red-500 text-sm">{errors.recommendedFoods[index].name.message}</p>
+              {errors.recommendedFoods?.[i]?.name && (
+                <p className="text-red-500 text-sm">
+                  {errors.recommendedFoods[i].name.message}
+                </p>
               )}
             </div>
 
@@ -94,9 +164,10 @@ export default function FoodRecommendationForm() {
               <label className="block text-sm font-medium text-gray-700">Quantity</label>
               <input
                 type="text"
-                {...register(`recommendedFoods.${index}.quantity`)}
+                {...register(`recommendedFoods.${i}.quantity`)}
                 placeholder="e.g. 2 pieces"
                 className="w-full border p-2 rounded-lg mt-2"
+                disabled={isSubmitting}
               />
             </div>
 
@@ -104,17 +175,18 @@ export default function FoodRecommendationForm() {
               <label className="block text-sm font-medium text-gray-700">Time of Day</label>
               <input
                 type="text"
-                {...register(`recommendedFoods.${index}.timeOfDay`)}
+                {...register(`recommendedFoods.${i}.timeOfDay`)}
                 placeholder="e.g. Morning"
                 className="w-full border p-2 rounded-lg mt-2"
+                disabled={isSubmitting}
               />
             </div>
 
             <button
               type="button"
-              onClick={() => remove(index)}
+              onClick={() => remove(i)}
               className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-              title="Remove"
+              disabled={isSubmitting}
             >
               <FontAwesomeIcon icon={faTrash} className="w-4 h-4" />
             </button>
@@ -125,6 +197,7 @@ export default function FoodRecommendationForm() {
           type="button"
           onClick={() => append({ name: "", quantity: "", timeOfDay: "" })}
           className="flex items-center text-blue-600 hover:underline text-sm font-medium"
+          disabled={isSubmitting}
         >
           <FontAwesomeIcon icon={faPlus} className="mr-2" />
           Add Another Food
@@ -133,12 +206,15 @@ export default function FoodRecommendationForm() {
 
       {/* Notes */}
       <div>
-        <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-white">Additional Notes</label>
+        <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-white">
+          Additional Notes
+        </label>
         <textarea
           {...register("notes")}
           placeholder="e.g. Avoid sugar in the evening..."
           rows={3}
           className="w-full border p-3 rounded-lg"
+          disabled={isSubmitting}
         />
       </div>
 
@@ -146,9 +222,10 @@ export default function FoodRecommendationForm() {
       <div>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-700 font-semibold"
+          disabled={isSubmitting}
+          className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-700 font-semibold disabled:opacity-50"
         >
-          Submit Recommendation
+          {isSubmitting ? "Submitting…" : "Submit Recommendation"}
         </button>
       </div>
     </form>

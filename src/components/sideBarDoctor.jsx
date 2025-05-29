@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Icon from '../assets/picc.jpg';
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faCalendarCheck,
   faUserInjured,
   faAppleAlt,
-  faFileMedical,
+
   faBell,
   faCog,
   faBars,
@@ -16,6 +18,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBarDoctor() {
+    const { id } = useParams();
+    const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -25,14 +29,49 @@ export default function SideBarDoctor() {
         ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md'
         : 'text-black hover:bg-blue-100 hover:text-black'
     }`;
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
 
+        console.log("Fetching user with ID:", userId);
+        console.log("Using token:", token);
+
+        if (!userId || !token) {
+          console.warn("Missing userId or token in localStorage");
+          return;
+        }
+
+        const response = await axios.get(
+          `https://careconnect-api-v2kw.onrender.com/api/user/getOne/${userId}`, 
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        console.log("User data fetched successfully:", response.data.user);
+        setUser(response.data.user);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
   return (
     <>
       {/* Desktop Sidebar */}
       <div className="hidden md:flex w-[300px] lg:w-[20%] h-full flex-col bg-gray-100 shadow-sm dark:bg-black dark:text-white">
         <div className="flex items-center gap-5 ml-6 mt-7">
-          <img src={Icon} alt="Logo" className="w-14 h-14 object-cover rounded-full" />
-          <p><strong>Dr IRIS</strong></p>
+        <img
+          src={user?.image || Icon}
+          alt="User Profile"
+          className="w-14 h-14 object-fill rounded-full"
+        />
+               <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
         </div>
         <nav className="flex flex-col mt-16 space-y-4 ml-6 ">
           <NavLink to="/doctor/dashboard" className={linkClasses}>
@@ -41,15 +80,13 @@ export default function SideBarDoctor() {
           <NavLink to="/doctor/appointments" className={linkClasses}>
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
           </NavLink>
-          <NavLink to="/doctor/patients" className={linkClasses}>
+          <NavLink to={`/doctor/patients/${id}`} className={linkClasses}>
             <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Patients
           </NavLink>
           <NavLink to="/doctor/sportNutri" className={linkClasses}>
             <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Sports & Nutrition
           </NavLink>
-          <NavLink to="/doctor/reports" className={linkClasses}>
-            <FontAwesomeIcon icon={faFileMedical} className="mr-4 " /> Reports
-          </NavLink>
+       
           <NavLink to="/doctor/notifications" className={linkClasses}>
             <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
           </NavLink>
@@ -74,8 +111,12 @@ export default function SideBarDoctor() {
         <div className="fixed top-0 left-0 w-64 h-full bg-gray-100 shadow-lg z-50 p-4 flex flex-col md:hidden dark:bg-black dark:text-white">
           <div className="flex justify-between items-center mb-6 ">
             <div className="flex items-center gap-3">
-              <img src={Icon} alt="Logo" className="w-10 h-10 object-cover rounded-full" />
-              <p><strong>Dr IRIS</strong></p>
+            <img
+               src={user?.image || Icon}
+               alt="User Profile"
+               className="w-14 h-14 object-cover rounded-full"
+             />
+            <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
             </div>
             <button onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faTimes} className="text-2xl dark:text-black" />
@@ -88,15 +129,13 @@ export default function SideBarDoctor() {
             <NavLink to="/doctor/appointments" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
             </NavLink>
-            <NavLink to="/doctor/patients" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to={`/doctor/patients/${id}`} className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faUserInjured} className="mr-4" /> Patients
             </NavLink>
             <NavLink to="/doctor/sportNutri" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faAppleAlt} className="mr-4" /> Sports & Nutrition
             </NavLink>
-            <NavLink to="/doctor/reports" className={linkClasses} onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faFileMedical} className="mr-4" /> Reports
-            </NavLink>
+          
             <NavLink to="/doctor/notifications" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faBell} className="mr-4" /> Notifications
             </NavLink>

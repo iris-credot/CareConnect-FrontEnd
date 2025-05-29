@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useDocumentTitle from "../customHooks/documentTitle";
-
+import Loading from "./loadingPage";
 export default function DoctorsPage() {
   useDocumentTitle("Doctors");
     const navigate = useNavigate();
@@ -96,7 +96,7 @@ export default function DoctorsPage() {
       <h1 className="text-2xl font-bold mb-4 dark:text-white">All Doctors</h1>
 
       {loading ? (
-        <p className="text-gray-600 dark:text-white">Loading...</p>
+          <Loading/>
       ) : (
         <table className="w-full border-collapse border border-gray-300 dark:text-white">
           <thead>
@@ -109,7 +109,7 @@ export default function DoctorsPage() {
           <tbody>
             {Array.isArray(doctors) &&
               doctors.map((doctor, index) => (
-                <tr key={index} className="hover:bg-blue-950">
+                <tr key={index} className="dark:hover:bg-blue-950 hover:bg-slate-200">
                   <td className="border border-gray-300 p-2">
                     {doctor.user?.firstName || "N/A"} {doctor.user?.lastName || ""}
                   </td>

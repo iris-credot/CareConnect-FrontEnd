@@ -57,7 +57,7 @@ function App() {
       <Route path="sportNutri/add-Food" element={<AddFood />} />
       <Route path="sportNutri/add-Sport" element={<AddSport />} />
       <Route path="notifications" element={<NotificationsPage />} />
-      <Route path="patients" element={<PatientsPage />} />
+      <Route path="patients/:id" element={<PatientsPage />} />
       <Route path="patients/view" element={<PatientsDetails />} />
       <Route path="reports" element={<ReportsDoctor/>} />
       <Route path="settings" element={<SettingsPage />}/>
