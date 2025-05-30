@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "../assets/icon.png";
+import Pagee from "../assets/project-3.jpg";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ export default function Home() {
 
         {/* Right Image Section */}
         <div className="md:w-1/2 flex justify-center">
-          <img src={Icon} alt="CareConnect" className="w-64 md:w-80" />
+          <img src={Pagee} alt="CareConnect" className="w-64 md:w-96 rounded-full shadow-xl object-cover aspect-square transition-transform duration-300 hover:scale-105" />
         </div>
       </section>
 
