@@ -122,7 +122,7 @@ export default function DoctorsPage() {
                       View
                     </button>
                     <button
-                      className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
+                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-800"
                       onClick={() => handleDelete(doctor._id)}
                     >
                       Delete

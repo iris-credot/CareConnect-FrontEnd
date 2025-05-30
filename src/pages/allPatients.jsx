@@ -114,7 +114,7 @@ const handleDelete = async (id) => {
                     onClick={() => navigate(`/admin/patients/view/${citizen._id || citizen.user?._id}`)}>
                       View
                     </button>
-                    <button className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"     onClick={() => handleDelete(citizen._id)}>
+                    <button className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-800"     onClick={() => handleDelete(citizen._id)}>
                       Delete
                     </button>
                   </td>

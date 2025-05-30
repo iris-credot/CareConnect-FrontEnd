@@ -7,7 +7,7 @@ export default function NavBar() {
       <div className="w-1/2 text-start md:pl-20 pl-9">
         <img src={Icon} alt="Logo" className="rounded-full" />
       </div>
-      <div className="w-1/2 text-end md:text-3xl font-extrabold md:pr-36 sm:pr-12 pr-8 sm:text-2xl text-xl">
+      <div className="w-1/2 text-end md:text-3xl font-extrabold md:pr-36 sm:pr-12 pr-8 sm:text-2xl text-xl text-blue-500">
         CareConnect
       </div>
     </div>
