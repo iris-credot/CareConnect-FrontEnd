@@ -37,8 +37,10 @@ export default function NotificationsPage() {
             },
           }
         );
-
-        const fetchedNotifications = res.data.notifications || [];
+const fetchedNotifications = (res.data.notifications || []).sort(
+  (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+);
+       
         setNotifications(fetchedNotifications);
         setHasNoNotifications(fetchedNotifications.length === 0);
       } catch (err) {
@@ -86,18 +88,18 @@ export default function NotificationsPage() {
                 key={notification._id}
                 className="flex gap-2 border border-gray-300 dark:border-gray-600 rounded-lg p-4 shadow hover:shadow-md transition"
               >
-                <div className="w-[80%]">
-                  <h2 className="font-semibold">{notification.title}</h2>
-                  <p className="text-sm text-gray-500 dark:text-white">{notification.time}</p>
+                <div className="w-[90%]">
+                  <h2 className="font-semibold">{notification.message}</h2>
+<p className="text-sm text-gray-500 dark:text-white">
+  {new Date(notification.createdAt).toLocaleString()}
+</p>
                 </div>
-                <div className="flex gap-3 w-[20%]">
-                  <button className="text-xs bg-black text-white dark:text-black dark:bg-white px-2 py-1 mt-3">
-                    Mark read
-                  </button>
+             
+
                   <span className="text-red-700 text-2xl mt-3">
                     <i className="fas fa-trash" onClick={() => {}}></i>
                   </span>
-                </div>
+               
               </div>
             ))}
           </div>
