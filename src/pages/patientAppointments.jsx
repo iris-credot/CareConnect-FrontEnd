@@ -40,7 +40,7 @@ export default function PatientAppointments(){
     async function fetchAppointments() {
       try {
         const res = await fetch(
-          `https://careconnect-api-v2kw.onrender.com/api/appointment/byDoctor/${userId}`,
+          `https://careconnect-api-v2kw.onrender.com/api/appointment/byPatient/${userId}`,
           {
             headers: {
               "Content-Type": "application/json",
