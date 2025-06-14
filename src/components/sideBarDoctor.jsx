@@ -121,10 +121,10 @@ export default function SideBarDoctor() {
             <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
             </div>
             <button onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faTimes} className="text-2xl dark:text-black" />
+              <FontAwesomeIcon icon={faTimes} className="text-lg dark:text-black" />
             </button>
           </div>
-          <nav className="flex flex-col space-y-6">
+          <nav className="flex flex-col mt-8 space-y-6">
             <NavLink to="/doctor/dashboard" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faHome} className="mr-4" /> Home
             </NavLink>

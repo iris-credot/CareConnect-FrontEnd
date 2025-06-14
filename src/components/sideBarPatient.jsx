@@ -128,10 +128,10 @@ export default function SideBarPatient() {
             <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
             </div>
             <button onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faTimes} className="text-2xl dark:text-black" />
+              <FontAwesomeIcon icon={faTimes} className="text-lg dark:text-black" />
             </button>
           </div>
-          <nav className="flex flex-col space-y-3">
+          <nav className="flex flex-col space-y-3 mt-8">
 
             <NavLink to="/patient/dashboard" className={linkClasses} onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
