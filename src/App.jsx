@@ -48,6 +48,22 @@ function App() {
     <Route path="/loading" element={<Loading />} />
     <Route path="*" element={<NotFound />} />
 
+      {/* Protected / Patient Layout Routes */}
+    <Route path="/patient" element={<LayoutDoctor />}>
+      <Route path="dashboard" element={<DoctorDashboard />} />
+      <Route path="appointments" element={<AppointmentsDoctor />} />
+      <Route path="appointments/create-appointment" element={<CreateAppointment />} />
+      <Route path="sportNutri" element={<FoodsSports />} />
+      <Route path="sportNutri/add-Food" element={<AddFood />} />
+      <Route path="sportNutri/add-Sport" element={<AddSport />} />
+      <Route path="notifications" element={<NotificationsPage />} />
+      <Route path="patients/:id" element={<PatientsPage />} />
+      <Route path="patients/view" element={<PatientsDetails />} />
+      <Route path="reports" element={<ReportsDoctor/>} />
+      <Route path="settings" element={<SettingsPage />}/>
+      <Route path="settings/update-pass" element={<UpdatePassword />} />
+    </Route>
+
     {/* Protected / Doctor Layout Routes */}
     <Route path="/doctor" element={<LayoutDoctor />}>
       <Route path="dashboard" element={<DoctorDashboard />} />
