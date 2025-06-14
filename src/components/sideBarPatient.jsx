@@ -69,14 +69,14 @@ export default function SideBarPatient() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="hidden md:flex w-[300px] lg:w-[20%] h-full flex-col bg-gray-100 shadow-sm dark:bg-black dark:text-white">
+      <div className="hidden md:flex w-[300px] lg:w-[20%] h-screen flex-col bg-gray-100 shadow-sm dark:bg-black dark:text-white">
         <div className="flex items-center gap-5 ml-6 mt-7">
           <img src={user?.image?.startsWith("http") ? user.image : Icon}    alt="User Profile"
           className="w-14 h-14 object-fill rounded-full"/>
       
                <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
         </div>
-        <nav className="flex flex-col mt-16 space-y-4 ml-6 ">
+        <nav className="flex flex-col mt-8 space-y-3 ml-6 ">
           <NavLink to="/patient/dashboard" className={linkClasses}>
             <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
           </NavLink>
@@ -84,12 +84,17 @@ export default function SideBarPatient() {
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
           </NavLink>
           <NavLink to='/patient/nutrition' className={linkClasses}>
-            <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Nutrion Recommendations
+            <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " />Food Recommendations
           </NavLink>
           <NavLink to="/patient/sports" className={linkClasses}>
             <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Sports Recommendations
           </NavLink>
-                        
+             <NavLink to="/patient/notifications" className={linkClasses}>
+            <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
+          </NavLink>
+          <NavLink to="/patient/settings" className={linkClasses}>
+            <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
+          </NavLink>           
           <NavLink to='/patient/feedback' className={linkClasses}>
             <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Feedback
           </NavLink>
@@ -98,23 +103,15 @@ export default function SideBarPatient() {
             <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Chats
           </NavLink>
 
-          <NavLink to="/patient/notifications" className={linkClasses}>
-            <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
-          </NavLink>
-          <NavLink to="/patient/settings" className={linkClasses}>
-            <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
-          </NavLink>
-            <NavLink   onClick={() => {
-    handleLogout();
-   
-  }} className={linkClasses}>
-                    <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" />Logout
+          
+            <NavLink   onClick={() => {handleLogout()}} className={linkClasses}>
+                    <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" /> Logout
            </NavLink>
         </nav>
       </div>
 
       {/* Mobile top bar toggle button */}
-      <div className="md:hidden flex justify-between items-center p-4 bg-gray-100 shadow-sm dark:bg-black">
+      <div className="md:hidden flex justify-between h-screen items-center p-4 bg-gray-100 shadow-sm dark:bg-black">
         <button onClick={toggleSidebar}>
           <FontAwesomeIcon icon={faBars} className="text-2xl" />
         </button>
@@ -122,7 +119,7 @@ export default function SideBarPatient() {
 
       {/* Mobile Sidebar Drawer */}
       {isOpen && (
-        <div className="fixed top-0 left-0 w-64 h-full bg-gray-100 shadow-lg z-50 p-4 flex flex-col md:hidden dark:bg-black dark:text-white">
+        <div className="fixed top-0 left-0 w-64 h-screen  bg-gray-100 shadow-lg z-50 p-4 flex flex-col md:hidden dark:bg-black dark:text-white">
           <div className="flex justify-between items-center mb-6 ">
             <div className="flex items-center gap-3">
                    <img src={user?.image?.startsWith("http") ? user.image : Icon}    alt="User Profile"
@@ -134,7 +131,7 @@ export default function SideBarPatient() {
               <FontAwesomeIcon icon={faTimes} className="text-2xl dark:text-black" />
             </button>
           </div>
-          <nav className="flex flex-col space-y-6">
+          <nav className="flex flex-col space-y-3">
 
             <NavLink to="/patient/dashboard" className={linkClasses} onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
@@ -143,12 +140,17 @@ export default function SideBarPatient() {
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
           </NavLink>
           <NavLink to='/patient/nutrition' className={linkClasses} onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Nutrion Recommendations
+            <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " />Food Recommendations
           </NavLink>
           <NavLink to="/patient/sports" className={linkClasses} onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Sports Recommendations
           </NavLink>
-                        
+                            <NavLink to="/patient/notifications" className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
+          </NavLink>
+          <NavLink to="/patient/settings" className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
+          </NavLink>
           <NavLink to='/patient/feedback' className={linkClasses} onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Feedback
           </NavLink>
@@ -157,12 +159,7 @@ export default function SideBarPatient() {
             <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Chats
           </NavLink>
 
-          <NavLink to="/patient/notifications" className={linkClasses} onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
-          </NavLink>
-          <NavLink to="/patient/settings" className={linkClasses} onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
-          </NavLink>
+      
             <NavLink  className={linkClasses}   onClick={() => {
     handleLogout();
     toggleSidebar();

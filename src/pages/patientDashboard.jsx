@@ -3,7 +3,7 @@ import Loading from "./loadingPage";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -47,18 +47,7 @@ export default function PatientDashboard(){
   const doctorId = localStorage.getItem("userId"); // Assuming this is the doctor's ID string
 
   useEffect(() => {
-    // Redirect if no token or role is not doctor
-    if (!token || !role || role.toLowerCase() !== "doctor") {
-      toast.error("Unauthorized - please login as doctor");
-      navigate("/login");
-      return;
-    }
 
-    if (!doctorId) {
-      toast.error("Doctor ID not found");
-      navigate("/login");
-      return;
-    }
 
     const fetchDoctorData = async () => {
       try {

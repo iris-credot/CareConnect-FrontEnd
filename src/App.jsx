@@ -37,13 +37,11 @@ import PatientChats from './pages/patientChats';
 import PatientDashboard from './pages/patientDashboard';
 import PatientFeedback from './pages/patientFeedback';
 import PatientFoods from './pages/patientFoods';
+import RequireAuth from './components/requireAuth';
 import PatientSports from './pages/patientSports';
+
 function App() {
-function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
-  if (!token) return <Navigate to="/login" />;
-  return children;
-}
+
 
 
   return (
@@ -60,7 +58,7 @@ function ProtectedRoute({ children }) {
     <Route path="*" element={<NotFound />} />
 
       {/* Protected / Patient Layout Routes */}
-    <Route path="/patient" element={<ProtectedRoute><LayoutPatient /></ProtectedRoute>}>
+    <Route path="/patient" element={<RequireAuth><LayoutPatient /></RequireAuth>}>
       <Route path="dashboard" element={<PatientDashboard />} />
       <Route path="appointments" element={<PatientAppointments/>} />
       <Route path="appointments/create-appointment" element={<CreateAppointment />} />
@@ -75,7 +73,7 @@ function ProtectedRoute({ children }) {
     </Route>
 
     {/* Protected / Doctor Layout Routes */}
-    <Route path="/doctor" element={<ProtectedRoute><LayoutDoctor /></ProtectedRoute>}>
+    <Route path="/doctor" element={<RequireAuth><LayoutDoctor /></RequireAuth>}>
       <Route path="dashboard" element={<DoctorDashboard />} />
       <Route path="appointments" element={<AppointmentsDoctor />} />
       <Route path="appointments/create-appointment" element={<CreateAppointment />} />
@@ -91,7 +89,7 @@ function ProtectedRoute({ children }) {
     </Route>
 
      {/* Protected / Admin Layout Routes */}
-     <Route path="/admin" element={<ProtectedRoute><LayoutAdmin /></ProtectedRoute>}>
+     <Route path="/admin" element={<RequireAuth><LayoutAdmin /></RequireAuth>}>
       <Route path="dashboard" element={<AdminDashboard />} />
       <Route path="appointments" element={<AppointmentsAdmin />} />
       <Route path="appointments/view/:id" element={<ViewAppointment />} />
