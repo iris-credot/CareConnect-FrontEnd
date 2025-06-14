@@ -31,7 +31,13 @@ import Home from './pages/home';
 import PatientsAll from './pages/allPatients';
 import DoctorsDetails from './pages/docview';
 import ViewAppointment from './pages/appoiview';
-    
+import LayoutPatient from './layout/layoutPatient';
+import PatientAppointments from './pages/patientAppointments';
+import PatientChats from './pages/patientChats';
+import PatientDashboard from './pages/patientDashboard';
+import PatientFeedback from './pages/patientFeedback';
+import PatientFoods from './pages/patientFoods';
+import PatientSports from './pages/patientSports';
 function App() {
 
 
@@ -49,16 +55,15 @@ function App() {
     <Route path="*" element={<NotFound />} />
 
       {/* Protected / Patient Layout Routes */}
-    <Route path="/patient" element={<LayoutDoctor />}>
-      <Route path="dashboard" element={<DoctorDashboard />} />
-      <Route path="appointments" element={<AppointmentsDoctor />} />
+    <Route path="/patient" element={<LayoutPatient />}>
+      <Route path="dashboard" element={<PatientDashboard />} />
+      <Route path="appointments" element={<PatientAppointments/>} />
       <Route path="appointments/create-appointment" element={<CreateAppointment />} />
-      <Route path="sportNutri" element={<FoodsSports />} />
-      <Route path="sportNutri/add-Food" element={<AddFood />} />
-      <Route path="sportNutri/add-Sport" element={<AddSport />} />
+      <Route path="sports" element={<PatientSports />} />
+      <Route path="nutrition" element={<PatientFoods />} />
       <Route path="notifications" element={<NotificationsPage />} />
-      <Route path="patients/:id" element={<PatientsPage />} />
-      <Route path="patients/view" element={<PatientsDetails />} />
+      <Route path="chats" element={<PatientChats/>} />
+      <Route path="feedback" element={<PatientFeedback />} />
       <Route path="reports" element={<ReportsDoctor/>} />
       <Route path="settings" element={<SettingsPage />}/>
       <Route path="settings/update-pass" element={<UpdatePassword />} />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useParams } from "react-router-dom";
+
 import Icon from '../assets/picc.jpg';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBarPatient() {
-    const { id } = useParams();
+  
     const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -74,23 +74,31 @@ export default function SideBarPatient() {
                <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
         </div>
         <nav className="flex flex-col mt-16 space-y-4 ml-6 ">
-          <NavLink to="/doctor/dashboard" className={linkClasses}>
+          <NavLink to="/patient/dashboard" className={linkClasses}>
             <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
           </NavLink>
-          <NavLink to="/doctor/appointments" className={linkClasses}>
+          <NavLink to="/patient/appointments" className={linkClasses}>
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
           </NavLink>
-          <NavLink to={`/doctor/patients/${id}`} className={linkClasses}>
-            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Nutrion Recommendations
+          <NavLink to='/patient/nutrition' className={linkClasses}>
+            <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Nutrion Recommendations
           </NavLink>
-          <NavLink to="/doctor/sportNutri" className={linkClasses}>
+          <NavLink to="/patient/sports" className={linkClasses}>
             <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Sports Recommendations
           </NavLink>
-       
-          <NavLink to="/doctor/notifications" className={linkClasses}>
+                        
+          <NavLink to='/patient/feedback' className={linkClasses}>
+            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Feedback
+          </NavLink>
+
+          <NavLink to='/patient/chats' className={linkClasses}>
+            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Chats
+          </NavLink>
+
+          <NavLink to="/patient/notifications" className={linkClasses}>
             <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
           </NavLink>
-          <NavLink to="/doctor/settings" className={linkClasses}>
+          <NavLink to="/patient/settings" className={linkClasses}>
             <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
           </NavLink>
             <NavLink to="/" className={linkClasses}>
@@ -123,25 +131,34 @@ export default function SideBarPatient() {
             </button>
           </div>
           <nav className="flex flex-col space-y-6">
-            <NavLink to="/doctor/dashboard" className={linkClasses} onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faHome} className="mr-4" /> Home
-            </NavLink>
-            <NavLink to="/doctor/appointments" className={linkClasses} onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
-            </NavLink>
-            <NavLink to={`/doctor/patients/${id}`} className={linkClasses} onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faUserInjured} className="mr-4" /> Patients
-            </NavLink>
-            <NavLink to="/doctor/sportNutri" className={linkClasses} onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faAppleAlt} className="mr-4" /> Sports & Nutrition
-            </NavLink>
-          
-            <NavLink to="/doctor/notifications" className={linkClasses} onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faBell} className="mr-4" /> Notifications
-            </NavLink>
-            <NavLink to="/doctor/settings" className={linkClasses} onClick={toggleSidebar}>
-              <FontAwesomeIcon icon={faCog} className="mr-4" /> Settings
-            </NavLink>
+
+            <NavLink to="/patient/dashboard" className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
+          </NavLink>
+          <NavLink to="/patient/appointments" className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
+          </NavLink>
+          <NavLink to='/patient/nutrition' className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Nutrion Recommendations
+          </NavLink>
+          <NavLink to="/patient/sports" className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faAppleAlt} className="mr-4 " /> Sports Recommendations
+          </NavLink>
+                        
+          <NavLink to='/patient/feedback' className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Feedback
+          </NavLink>
+
+          <NavLink to='/patient/chats' className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Chats
+          </NavLink>
+
+          <NavLink to="/patient/notifications" className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faBell} className="mr-4 " /> Notifications
+          </NavLink>
+          <NavLink to="/patient/settings" className={linkClasses} onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
+          </NavLink>
             <NavLink to="/" className={linkClasses} onClick={toggleSidebar}>
                     <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" />Logout
            </NavLink>
