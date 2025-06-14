@@ -29,6 +29,11 @@ export default function SideBarPatient() {
         ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md'
         : 'text-black hover:bg-blue-100 hover:text-black'
     }`;
+    const handleLogout = () => {
+  localStorage.clear();
+  window.location.href = "/login";
+};
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -66,11 +71,9 @@ export default function SideBarPatient() {
       {/* Desktop Sidebar */}
       <div className="hidden md:flex w-[300px] lg:w-[20%] h-full flex-col bg-gray-100 shadow-sm dark:bg-black dark:text-white">
         <div className="flex items-center gap-5 ml-6 mt-7">
-        <img
-          src={user?.image || Icon}
-          alt="User Profile"
-          className="w-14 h-14 object-fill rounded-full"
-        />
+          <img src={user?.image?.startsWith("http") ? user.image : Icon}    alt="User Profile"
+          className="w-14 h-14 object-fill rounded-full"/>
+      
                <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
         </div>
         <nav className="flex flex-col mt-16 space-y-4 ml-6 ">
@@ -101,7 +104,10 @@ export default function SideBarPatient() {
           <NavLink to="/patient/settings" className={linkClasses}>
             <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
           </NavLink>
-            <NavLink to="/" className={linkClasses}>
+            <NavLink   onClick={() => {
+    handleLogout();
+   
+  }} className={linkClasses}>
                     <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" />Logout
            </NavLink>
         </nav>
@@ -119,11 +125,9 @@ export default function SideBarPatient() {
         <div className="fixed top-0 left-0 w-64 h-full bg-gray-100 shadow-lg z-50 p-4 flex flex-col md:hidden dark:bg-black dark:text-white">
           <div className="flex justify-between items-center mb-6 ">
             <div className="flex items-center gap-3">
-            <img
-               src={user?.image || Icon}
-               alt="User Profile"
-               className="w-14 h-14 object-cover rounded-full"
-             />
+                   <img src={user?.image?.startsWith("http") ? user.image : Icon}    alt="User Profile"
+          className="w-14 h-14 object-fill rounded-full"/>
+         
             <p><strong>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</strong></p>
             </div>
             <button onClick={toggleSidebar}>
@@ -159,7 +163,10 @@ export default function SideBarPatient() {
           <NavLink to="/patient/settings" className={linkClasses} onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
           </NavLink>
-            <NavLink to="/" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink  className={linkClasses}   onClick={() => {
+    handleLogout();
+    toggleSidebar();
+  }}>
                     <FontAwesomeIcon icon={faRightFromBracket} className="mr-4" />Logout
            </NavLink>
           </nav>

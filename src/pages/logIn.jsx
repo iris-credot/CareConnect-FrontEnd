@@ -61,13 +61,13 @@ export default function Login() {
       // Navigate based on role
       switch (userRole.toLowerCase()) {
         case "patient":
-          setTimeout(() => navigate("/patient/dashboard"), 1500);
+           navigate("/patient/dashboard");
           break;
         case "doctor":
-          setTimeout(() => navigate("/doctor/dashboard"), 1500);
+           navigate("/doctor/dashboard");
           break;
         case "admin":
-          setTimeout(() => navigate("/admin/dashboard"), 1500);
+          navigate("/admin/dashboard");
           break;
         default:
           throw new Error("Unknown user role");

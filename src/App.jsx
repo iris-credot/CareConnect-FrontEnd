@@ -39,6 +39,11 @@ import PatientFeedback from './pages/patientFeedback';
 import PatientFoods from './pages/patientFoods';
 import PatientSports from './pages/patientSports';
 function App() {
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+  if (!token) return <Navigate to="/login" />;
+  return children;
+}
 
 
   return (
@@ -55,7 +60,7 @@ function App() {
     <Route path="*" element={<NotFound />} />
 
       {/* Protected / Patient Layout Routes */}
-    <Route path="/patient" element={<LayoutPatient />}>
+    <Route path="/patient" element={<ProtectedRoute><LayoutPatient /></ProtectedRoute>}>
       <Route path="dashboard" element={<PatientDashboard />} />
       <Route path="appointments" element={<PatientAppointments/>} />
       <Route path="appointments/create-appointment" element={<CreateAppointment />} />
@@ -70,7 +75,7 @@ function App() {
     </Route>
 
     {/* Protected / Doctor Layout Routes */}
-    <Route path="/doctor" element={<LayoutDoctor />}>
+    <Route path="/doctor" element={<ProtectedRoute><LayoutDoctor /></ProtectedRoute>}>
       <Route path="dashboard" element={<DoctorDashboard />} />
       <Route path="appointments" element={<AppointmentsDoctor />} />
       <Route path="appointments/create-appointment" element={<CreateAppointment />} />
@@ -86,7 +91,7 @@ function App() {
     </Route>
 
      {/* Protected / Admin Layout Routes */}
-     <Route path="/admin" element={<LayoutAdmin />}>
+     <Route path="/admin" element={<ProtectedRoute><LayoutAdmin /></ProtectedRoute>}>
       <Route path="dashboard" element={<AdminDashboard />} />
       <Route path="appointments" element={<AppointmentsAdmin />} />
       <Route path="appointments/view/:id" element={<ViewAppointment />} />
