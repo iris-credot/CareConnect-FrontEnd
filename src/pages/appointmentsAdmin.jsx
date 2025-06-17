@@ -13,6 +13,7 @@ export default function AppointmentsAdmin() {
  const fetchAppointmentsWithUsers = async () => {
   try {
     const token = localStorage.getItem("token");
+    
     if (!token) {
       console.error("Token not found");
       return;

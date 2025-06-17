@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
+
 const appointmentSchema = z.object({
   patient: z.string().min(1, "Patient is required"),
   doctor: z.string().min(1, "Doctor is required"),
@@ -17,57 +18,56 @@ const appointmentSchema = z.object({
 });
 
 export default function CreateAppointmentDoctor() {
-
+ 
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm({
     resolver: zodResolver(appointmentSchema),
   });
 
   const [patients, setPatients] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [doctorName, setDoctorName] = useState("");
-  const [doctorId, setDoctorId] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const user = JSON.parse(localStorage.getItem("user"));
-
-        if (!token || !user) {
-          toast.error("Authentication error");
-          return;
-        }
-
-        // Set doctor ID and name from logged-in user
-        setDoctorId(user._id);
-        setDoctorName(`${user.firstName} ${user.lastName}`);
-        setValue("doctor", user._id); // Set value for hidden input
-
-        const patientsRes = await axios.get(
-          "https://careconnect-api-v2kw.onrender.com/api/patient/all",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        setPatients(patientsRes.data.patients || []);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        toast.error("Failed to load form data");
-      } finally {
-        setLoading(false);
+  // Fetch patients and doctors on mount
+useEffect(() => {
+  const fetchPatientsAndDoctors = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Authentication token not found");
+        return;
       }
-    };
 
-    fetchData();
-  }, [setValue]);
+      const [patientsRes, doctorsRes] = await Promise.all([
+        axios.get("https://careconnect-api-v2kw.onrender.com/api/patient/all", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        axios.get("https://careconnect-api-v2kw.onrender.com/api/doctor/all", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
+
+      console.log("Fetched Patients:", patientsRes.data);
+      console.log("Fetched Doctors:", doctorsRes.data);
+
+      setPatients(patientsRes.data.patients || []);
+      setDoctors(doctorsRes.data.doctors || []);
+    } catch (error) {
+      console.error("Error fetching patients or doctors:", error);
+      toast.error("Failed to load patients or doctors");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchPatientsAndDoctors();
+}, []);
+
 
   const onSubmit = async (data) => {
     try {
@@ -87,7 +87,7 @@ export default function CreateAppointmentDoctor() {
 
       toast.success("Appointment created successfully!");
       setTimeout(() => {
-        navigate(-1); // Go to previous page
+        navigate(-1); // Go to previous page after showing toast
       }, 1500);
     } catch (error) {
       console.error("Error creating appointment:", error);
@@ -107,18 +107,18 @@ export default function CreateAppointmentDoctor() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block font-semibold mb-1">Patient</label>
-          <select
-            {...register("patient")}
-            className="w-full border p-2 rounded dark:text-gray-800"
-            defaultValue=""
-          >
-            <option value="">-- Select patient --</option>
-            {patients.map((patient) => (
-              <option key={patient._id} value={patient._id}>
-                {patient.user?.firstName} {patient.user?.lastName}
-              </option>
-            ))}
-          </select>
+         <select
+  {...register("patient")}
+  className="w-full border p-2 rounded dark:text-gray-800"
+  defaultValue=""
+>
+  <option value="">-- Select patient --</option>
+  {patients.map((patient) => (
+    <option key={patient._id} value={patient._id}>
+      {patient.user?.firstName} {patient.user?.lastName}
+    </option>
+  ))}
+</select>
           {errors.patient && (
             <p className="text-red-500 text-sm">{errors.patient.message}</p>
           )}
@@ -126,17 +126,18 @@ export default function CreateAppointmentDoctor() {
 
         <div>
           <label className="block font-semibold mb-1">Doctor</label>
-          <input
-            type="text"
-            value={doctorName}
-            disabled
-            className="w-full border p-2 rounded bg-gray-100 dark:bg-gray-600 dark:text-white"
-          />
-          <input
-            type="hidden"
-            {...register("doctor")}
-            value={doctorId}
-          />
+        <select
+  {...register("doctor")}
+  className="w-full border p-2 rounded dark:text-gray-800 text-black"
+  defaultValue=""
+>
+  <option value="">-- Select doctor --</option>
+  {doctors.map((doctor) => (
+    <option key={doctor._id} value={doctor._id} className="text-black">
+      {doctor.user?.firstName} {doctor.user?.lastName}
+    </option>
+  ))}
+</select>
           {errors.doctor && (
             <p className="text-red-500 text-sm">{errors.doctor.message}</p>
           )}

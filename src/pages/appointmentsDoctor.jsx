@@ -155,7 +155,7 @@ export default function AppointmentsDoctor() {
                   </td>
                   <td className="border border-gray-300 p-2">{formattedDate}</td>
                   <td className="border border-gray-300 p-2">{formattedTime}</td>
-                  <td className="p-2 text-center items-center justify-center md:space-x-2 flex md:flex-row flex-col md:gap-0 gap-2">
+                  <td className="border border-gray-300 p-2 text-center items-center justify-center md:space-x-2 flex md:flex-row flex-col md:gap-0 gap-2">
                     <button
                       className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
                       onClick={() => navigate(`/doctor/appointments/view/${appt._id}`)}
