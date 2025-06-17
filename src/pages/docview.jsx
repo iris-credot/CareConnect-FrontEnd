@@ -1,9 +1,9 @@
-import useDocumentTitle from "../customHooks/documentTitle";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function DoctorsDetails() {
-  useDocumentTitle("Doctors-View");
+ 
 
   const { id } = useParams();
   const [doctor, setDoctor] = useState(null);

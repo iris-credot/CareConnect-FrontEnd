@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useDocumentTitle from "../customHooks/documentTitle";
+
 import { useNavigate } from "react-router-dom";
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,7 +24,7 @@ const SportRecommendationSchema = z.object({
 });
 
 export default function AddSport() {
-  useDocumentTitle("New Sport Recommendation");
+
   const navigate = useNavigate();
 
   const [patients, setPatients] = useState([]);

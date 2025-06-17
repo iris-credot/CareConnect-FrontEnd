@@ -4,14 +4,14 @@ import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import useDocumentTitle from "../customHooks/documentTitle";
+
 // Zod schema for validation
 const schema = z.object({
   email: z.string().email("Enter a valid email address"),
 });
 
 export default function ForgotPassword() {
-  useDocumentTitle("Forgot-Password");
+
     const navigate = useNavigate();
   const {
     register,

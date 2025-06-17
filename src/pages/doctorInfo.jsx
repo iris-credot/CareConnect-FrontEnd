@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import useDocumentTitle from "../customHooks/documentTitle";
+
 import Loading from "./loadingPage";
 export default function DoctorsPage() {
-  useDocumentTitle("Doctors");
+
     const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);

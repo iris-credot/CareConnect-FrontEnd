@@ -80,7 +80,7 @@ export default function SideBarDoctor() {
           <NavLink to="/doctor/dashboard" className={linkClasses}>
             <FontAwesomeIcon icon={faHome} className="mr-4 " /> Home
           </NavLink>
-          <NavLink to="/doctor/appointments" className={linkClasses}>
+          <NavLink to={`/doctor/appointments/${userId}`} className={linkClasses}>
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
           </NavLink>
           <NavLink to={`/doctor/patients/${userId}`} className={linkClasses}>
@@ -129,7 +129,7 @@ export default function SideBarDoctor() {
             <NavLink to="/doctor/dashboard" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faHome} className="mr-4" /> Home
             </NavLink>
-            <NavLink to="/doctor/appointments" className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to={`/doctor/appointments/${userId}`} className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
             </NavLink>
             <NavLink to={`/doctor/patients/${userId}`} className={linkClasses} onClick={toggleSidebar}>

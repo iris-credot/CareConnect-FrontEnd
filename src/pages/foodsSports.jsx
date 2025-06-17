@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Pencil, Trash2 } from "lucide-react";
-import useDocumentTitle from "../customHooks/documentTitle";
+
 import { useNavigate } from "react-router-dom";
 
 export default function FoodsSports() {
   const navigate = useNavigate();
-  useDocumentTitle("Nutri-Sports");
+ 
 
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [patients, setPatients] = useState([]);

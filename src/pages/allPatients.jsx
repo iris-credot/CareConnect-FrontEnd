@@ -1,10 +1,10 @@
-import useDocumentTitle from "../customHooks/documentTitle";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "./loadingPage";
 export default function PatientsAll() {
-  useDocumentTitle("CareConnect-Patients");
+
     const navigate = useNavigate();
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);

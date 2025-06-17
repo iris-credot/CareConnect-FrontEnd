@@ -1,11 +1,11 @@
-import useDocumentTitle from "../customHooks/documentTitle";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "./loadingPage";
 export default function AppointmentsAdmin() {
      const navigate = useNavigate();
-  useDocumentTitle("CareConnect-Appointments");
+
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ export default function AppointmentsAdmin() {
     );
 
     const appointments = res.data.appointments;
-
+ appointments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const detailedAppointments = await Promise.all(
       appointments.map(async (appointment) => {
         try {
@@ -124,7 +124,9 @@ export default function AppointmentsAdmin() {
           <tbody>
             {appointments.map((appt) => (
               <tr key={appt._id} className="dark:hover:bg-blue-950 hover:bg-slate-200">
-                <td className="border border-gray-300 p-2">
+                <td className="border border-gray-300 p-2 hover:font-bold hover:cursor-pointer"
+                   onClick={() => navigate(`/admin/patients/view/${appt._id || appt.user?._id}`)}
+                >
                   {appt.patientDetails?.firstName || "N/A"}{" "}
                   {appt.patientDetails?.lastName || ""}
                 </td>
@@ -138,11 +140,17 @@ export default function AppointmentsAdmin() {
                 <td className="border border-gray-300 p-2">
                   {appt.status || "Pending"}
                 </td>
-                <td className="border border-gray-300 p-2 text-center space-x-2">
+                <td className="border border-gray-300 p-2 text-centeritems-center justify-center md:space-x-2 flex md:flex-row flex-col md:gap-0 gap-2">
                   <button className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
                    onClick={() => navigate(`/admin/appointments/view/${appt._id || appt.user?._id}`)}>
                     View
                   </button>
+                     <button
+                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                      onClick={() => navigate(`/doctor/appointments/update/${appt._id}`)}
+                    >
+                      Update
+                    </button>
                   <button
                     onClick={() => handleDelete(appt._id)}
                     className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"

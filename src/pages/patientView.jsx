@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useDocumentTitle from "../customHooks/documentTitle";
+
 
 export default function PatientsDetails() {
-  useDocumentTitle("Patients-View");
+  
 
   const { id } = useParams();
   console.log("Fetched patient ID from URL:", id);

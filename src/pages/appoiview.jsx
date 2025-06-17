@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useDocumentTitle from "../customHooks/documentTitle";
+
 
 
 import { useParams } from "react-router-dom";
@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 export default function ViewAppointment() {
     
-  useDocumentTitle("View Appointment");
+
   const { id } = useParams();
 
   const [appointment, setAppointment] = useState(null);

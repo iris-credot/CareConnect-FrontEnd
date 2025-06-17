@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import useDocumentTitle from "../customHooks/documentTitle";
+
 // Zod schema
 const schema = z.object({
   licenseNumber: z.string().min(1, "License Number is required"),
@@ -19,7 +19,7 @@ const schema = z.object({
 });
 
 export default function CreateDoctor() {
-  useDocumentTitle("Doctor Info");
+
   const navigate = useNavigate();
   const {
     register,

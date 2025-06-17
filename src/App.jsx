@@ -39,7 +39,7 @@ import PatientFeedback from './pages/patientFeedback';
 import PatientFoods from './pages/patientFoods';
 import RequireAuth from './components/requireAuth';
 import PatientSports from './pages/patientSports';
-
+import CreateAppointmentDoctor from './pages/createAppointDoctor';
 function App() {
 
 
@@ -75,8 +75,9 @@ function App() {
     {/* Protected / Doctor Layout Routes */}
     <Route path="/doctor" element={<RequireAuth><LayoutDoctor /></RequireAuth>}>
       <Route path="dashboard" element={<DoctorDashboard />} />
-      <Route path="appointments" element={<AppointmentsDoctor />} />
-      <Route path="appointments/create-appointment" element={<CreateAppointment />} />
+      <Route path="appointments/:id" element={<AppointmentsDoctor />} />
+       <Route path="appointments/view/:id" element={<ViewAppointment />} />
+      <Route path="appointments/create" element={<CreateAppointmentDoctor />} />
       <Route path="sportNutri" element={<FoodsSports />} />
       <Route path="sportNutri/add-Food" element={<AddFood />} />
       <Route path="sportNutri/add-Sport" element={<AddSport />} />
