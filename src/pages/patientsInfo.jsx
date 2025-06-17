@@ -1,55 +1,99 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import useDocumentTitle from "../customHooks/documentTitle";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function PatientsPage() {
   useDocumentTitle("Patients");
+const navigate=useNavigate();
+  const doctorUserId = localStorage.getItem("userId"); // doctor userId
 
-  const { id } = useParams(); // Doctor ID from URL
+  const [doctorId, setDoctorId] = useState(null);
   const [citizens, setCitizens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Step 1: Fetch the doctor document using the userId
   useEffect(() => {
-    const fetchPatients = async () => {
-      if (!id) {
-        console.warn("No doctor ID provided.");
-        setLoading(false);
-        return;
-      }
-
+    const fetchDoctor = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Doctor ID from URL:", id);
-        console.log("Token from localStorage:", token);
-
-        const response = await fetch(
-          `https://careconnect-api-v2kw.onrender.com/api/patient/getPatientByDoctor/${id}`,
+        const res = await fetch(
+          `https://careconnect-api-v2kw.onrender.com/api/doctor/getdoctorByUser/${doctorUserId}`,
           {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch patient data. Status: ${response.status}`);
+        if (!res.ok) throw new Error("Failed to fetch doctor info");
+
+        const doctorData = await res.json();
+        setDoctorId(doctorData._id); // doctor._id
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch doctor info");
+        setLoading(false);
+      }
+    };
+
+    if (doctorUserId) {
+      fetchDoctor();
+    } else {
+      setError("No doctor user ID found");
+      setLoading(false);
+    }
+  }, [doctorUserId]);
+const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this patient?");
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Token not found");
+        return;
+      }
+
+      await axios.delete(
+        `https://careconnect-api-v2kw.onrender.com/api/patient/delete/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      // Update state by filtering out the deleted patient
+      setCitizens((prev) => prev.filter((patient) => patient._id !== id));
+    } catch (error) {
+      console.error("Error deleting patient:", error);
+      alert("Failed to delete patient.");
+    }
+  };
+  // Step 2: Fetch patients using doctor._id
+  useEffect(() => {
+    if (!doctorId) return;
+
+    const fetchPatients = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          `https://careconnect-api-v2kw.onrender.com/api/doctor/getDoctorPatients/${doctorId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch patient data. Status: ${res.status}`);
         }
 
-        const data = await response.json();
-        console.log("Fetched patients data:", data);
-
+        const data = await res.json();
         if (Array.isArray(data.patients)) {
           setCitizens(data.patients);
         } else {
-          console.warn("Unexpected response structure:", data);
           setCitizens([]);
         }
-
-      } catch (error) {
-        console.error("❌ Error fetching patients:", error);
+      } catch (err) {
+        console.error("Error fetching patients:", err);
         setError("Failed to fetch patient data.");
         setCitizens([]);
       } finally {
@@ -58,7 +102,7 @@ export default function PatientsPage() {
     };
 
     fetchPatients();
-  }, [id]);
+  }, [doctorId]);
 
   return (
     <div className="p-6">
@@ -89,10 +133,12 @@ export default function PatientsPage() {
                   {citizen.user?.email}
                 </td>
                 <td className="border border-gray-300 p-2 text-center space-x-2">
-                  <button className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800">
+                  <button className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
+                  onClick={() => navigate(`/admin/patients/view/${citizen._id || citizen.user?._id}`)}
+                  >
                     View
                   </button>
-                  <button className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                  <button className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"onClick={() => handleDelete(citizen._id)}>
                     Delete
                   </button>
                 </td>

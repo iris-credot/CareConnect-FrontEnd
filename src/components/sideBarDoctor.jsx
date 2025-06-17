@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useParams } from "react-router-dom";
+
 import Icon from '../assets/picc.jpg';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBarDoctor() {
-    const { id } = useParams();
+  const userId = localStorage.getItem("userId");
+
     const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -82,7 +83,7 @@ export default function SideBarDoctor() {
           <NavLink to="/doctor/appointments" className={linkClasses}>
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
           </NavLink>
-          <NavLink to={`/doctor/patients/${id}`} className={linkClasses}>
+          <NavLink to={`/doctor/patients/${userId}`} className={linkClasses}>
             <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Patients
           </NavLink>
           <NavLink to="/doctor/sportNutri" className={linkClasses}>
@@ -131,7 +132,7 @@ export default function SideBarDoctor() {
             <NavLink to="/doctor/appointments" className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faCalendarCheck} className="mr-4" /> Appointments
             </NavLink>
-            <NavLink to={`/doctor/patients/${id}`} className={linkClasses} onClick={toggleSidebar}>
+            <NavLink to={`/doctor/patients/${userId}`} className={linkClasses} onClick={toggleSidebar}>
               <FontAwesomeIcon icon={faUserInjured} className="mr-4" /> Patients
             </NavLink>
             <NavLink to="/doctor/sportNutri" className={linkClasses} onClick={toggleSidebar}>
