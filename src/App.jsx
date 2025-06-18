@@ -61,7 +61,6 @@ function App() {
     <Route path="/patient" element={<RequireAuth><LayoutPatient /></RequireAuth>}>
       <Route path="dashboard" element={<PatientDashboard />} />
       <Route path="appointments" element={<PatientAppointments/>} />
-      <Route path="appointments/create-appointment" element={<CreateAppointment />} />
       <Route path="sports" element={<PatientSports />} />
       <Route path="nutrition" element={<PatientFoods />} />
       <Route path="notifications" element={<NotificationsPage />} />

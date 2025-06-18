@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-
 
 const appointmentSchema = z.object({
   patient: z.string().min(1, "Patient is required"),
@@ -18,55 +16,90 @@ const appointmentSchema = z.object({
 });
 
 export default function CreateAppointmentDoctor() {
- 
   const navigate = useNavigate();
-
+const user= localStorage.getItem("userId");
+console.log(user);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: zodResolver(appointmentSchema),
   });
 
   const [patients, setPatients] = useState([]);
-  const [doctors, setDoctors] = useState([]);
+  const [doctorId, setDoctorId] = useState("");
+  const [doctorName, setDoctorName] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Fetch patients and doctors on mount
 useEffect(() => {
-  const fetchPatientsAndDoctors = async () => {
+  const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Authentication token not found");
+      const userJson = localStorage.getItem("user");
+      if (!token || !userJson) {
+        toast.error("User not authenticated.");
+        setLoading(false);
         return;
       }
 
-      const [patientsRes, doctorsRes] = await Promise.all([
-        axios.get("https://careconnect-api-v2kw.onrender.com/api/patient/all", {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        axios.get("https://careconnect-api-v2kw.onrender.com/api/doctor/all", {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-      ]);
+      const userObj = JSON.parse(userJson);
 
-      console.log("Fetched Patients:", patientsRes.data);
-      console.log("Fetched Doctors:", doctorsRes.data);
-
+      // Fetch patients
+      const patientsRes = await axios.get(
+        "https://careconnect-api-v2kw.onrender.com/api/patient/all",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setPatients(patientsRes.data.patients || []);
-      setDoctors(doctorsRes.data.doctors || []);
+
+      // Fetch doctor by user ID
+      const doctorRes = await axios.get(
+        `https://careconnect-api-v2kw.onrender.com/api/doctor/getDoctorByUser/${userObj._id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const doctor = doctorRes.data?._id;
+
+      if (!doctor) {
+        toast.error("Doctor not found");
+        setLoading(false);
+        return;
+      }
+
+      setDoctorId(doctor);
+      setValue("doctor", doctor); // set doctor ID in form
+
+      // Fetch user data for doctor name display
+      const userRes = await axios.get(
+        `https://careconnect-api-v2kw.onrender.com/api/user/getOne/${userObj._id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const userData = userRes.data.user;
+      console.log(userData);
+      if (userData?.firstName && userData?.lastName) {
+        setDoctorName(`Dr. ${userData.firstName} ${userData.lastName}`);
+      } else {
+        setDoctorName("Dr. Unknown");
+      }
     } catch (error) {
-      console.error("Error fetching patients or doctors:", error);
-      toast.error("Failed to load patients or doctors");
+      console.error("Error fetching data:", error);
+      toast.error("Failed to load data");
     } finally {
       setLoading(false);
     }
   };
 
-  fetchPatientsAndDoctors();
-}, []);
+  fetchData();
+}, [setValue]);
+
 
 
   const onSubmit = async (data) => {
@@ -87,7 +120,7 @@ useEffect(() => {
 
       toast.success("Appointment created successfully!");
       setTimeout(() => {
-        navigate(-1); // Go to previous page after showing toast
+        navigate(-1);
       }, 1500);
     } catch (error) {
       console.error("Error creating appointment:", error);
@@ -107,37 +140,39 @@ useEffect(() => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block font-semibold mb-1">Patient</label>
-         <select
-  {...register("patient")}
-  className="w-full border p-2 rounded dark:text-gray-800"
-  defaultValue=""
->
-  <option value="">-- Select patient --</option>
-  {patients.map((patient) => (
-    <option key={patient._id} value={patient._id}>
-      {patient.user?.firstName} {patient.user?.lastName}
-    </option>
-  ))}
-</select>
+          <select
+            {...register("patient")}
+            className="w-full border p-2 rounded dark:text-gray-800"
+            defaultValue=""
+          >
+            <option value="">-- Select patient --</option>
+            {patients.map((patient) => {
+              const first = patient.user?.firstName || "Unknown";
+              const last = patient.user?.lastName || "Patient";
+              return (
+                <option key={patient._id} value={patient._id}>
+                  {first} {last}
+                </option>
+              );
+            })}
+          </select>
           {errors.patient && (
             <p className="text-red-500 text-sm">{errors.patient.message}</p>
           )}
         </div>
 
+        {/* Hidden input for form submission */}
+        <input type="hidden" {...register("doctor")} value={doctorId} />
+
+        {/* Display doctor name for confirmation */}
         <div>
           <label className="block font-semibold mb-1">Doctor</label>
-        <select
-  {...register("doctor")}
-  className="w-full border p-2 rounded dark:text-gray-800 text-black"
-  defaultValue=""
->
-  <option value="">-- Select doctor --</option>
-  {doctors.map((doctor) => (
-    <option key={doctor._id} value={doctor._id} className="text-black">
-      {doctor.user?.firstName} {doctor.user?.lastName}
-    </option>
-  ))}
-</select>
+          <input
+            type="text"
+            value={doctorName}
+            disabled
+            className="w-full border p-2 rounded bg-gray-100 dark:text-gray-800"
+          />
           {errors.doctor && (
             <p className="text-red-500 text-sm">{errors.doctor.message}</p>
           )}

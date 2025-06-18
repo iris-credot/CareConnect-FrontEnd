@@ -163,7 +163,7 @@ export default function PatientDashboard(){
 
   return (
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <h1 className="text-4xl font-bold mb-6 text-center">👨‍⚕️ Doctor Dashboard</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center">👨Patient Dashboard</h1>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">

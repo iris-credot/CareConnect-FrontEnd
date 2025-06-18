@@ -8,7 +8,7 @@ export default function PatientAppointments(){
     const [error, setError] = useState(null);
   
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("userId");
     console.log("storedUser:", storedUser);
     const storedToken = localStorage.getItem("token");
     console.log("storedToken:", storedToken);
@@ -40,7 +40,7 @@ export default function PatientAppointments(){
     async function fetchAppointments() {
       try {
         const res = await fetch(
-          `https://careconnect-api-v2kw.onrender.com/api/appointment/byPatient/${userId}`,
+          `https://careconnect-api-v2kw.onrender.com/api/appointment/byUser/${storedUser}`,
           {
             headers: {
               "Content-Type": "application/json",

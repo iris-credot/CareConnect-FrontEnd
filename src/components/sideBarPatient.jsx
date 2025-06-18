@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faCalendarCheck,
-  faUserInjured,
+  
   faAppleAlt,
 
   faBell,
@@ -95,13 +95,7 @@ export default function SideBarPatient() {
           <NavLink to="/patient/settings" className={linkClasses}>
             <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
           </NavLink>           
-          <NavLink to='/patient/feedback' className={linkClasses}>
-            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Feedback
-          </NavLink>
 
-          <NavLink to='/patient/chats' className={linkClasses}>
-            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Chats
-          </NavLink>
 
           
             <NavLink   onClick={() => {handleLogout()}} className={linkClasses}>
@@ -151,13 +145,7 @@ export default function SideBarPatient() {
           <NavLink to="/patient/settings" className={linkClasses} onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faCog} className="mr-4 " /> Settings
           </NavLink>
-          <NavLink to='/patient/feedback' className={linkClasses} onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Feedback
-          </NavLink>
-
-          <NavLink to='/patient/chats' className={linkClasses} onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faUserInjured} className="mr-4 " /> Chats
-          </NavLink>
+        
 
       
             <NavLink  className={linkClasses}   onClick={() => {
