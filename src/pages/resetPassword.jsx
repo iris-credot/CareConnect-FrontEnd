@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate,useParams} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -22,7 +22,7 @@ const schema = z
 export default function ResetPassword() {
   useDocumentTitle("Reset-Password");
   const navigate = useNavigate();
- const { token } = useParams();
+ const  token  = localStorage.getItem("token");
  
 
   const {
