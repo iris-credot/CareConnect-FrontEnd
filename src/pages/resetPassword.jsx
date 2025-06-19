@@ -1,7 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import useDocumentTitle from "../customHooks/documentTitle";
@@ -22,6 +23,7 @@ const schema = z
 export default function ResetPassword() {
   useDocumentTitle("Reset-Password");
   const navigate = useNavigate();
+    const { token } = useParams(); 
   const {
     register,
     handleSubmit,
@@ -31,10 +33,33 @@ export default function ResetPassword() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Reset Data:", data);
-    alert("Your password has been reset!");
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch(`https://careconnect-api-v2kw.onrender.com/api/user/resetpassword/${token}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+          newPassword: data.newPassword,
+          confirm: data.confirm, 
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        toast.error(result.message || "Failed to reset password");
+        return;
+      }
+
+      toast.success("Your password has been reset!");
+      reset();
+      setTimeout(() => navigate("/login"), 1500);
+     
+    } catch (error) {
+      console.error("Reset password error:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
   };
 
   return (
