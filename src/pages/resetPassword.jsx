@@ -1,18 +1,17 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import useDocumentTitle from "../customHooks/documentTitle";
+
 // Zod schema
 const schema = z
   .object({
     email: z.string().email("Enter a valid email address"),
-    newPassword: z
-      .string()
-      .min(6, "Password must be at least 6 characters"),
+    newPassword: z.string().min(6, "Password must be at least 6 characters"),
     confirm: z.string(),
   })
   .refine((data) => data.newPassword === data.confirm, {
@@ -23,7 +22,9 @@ const schema = z
 export default function ResetPassword() {
   useDocumentTitle("Reset-Password");
   const navigate = useNavigate();
-    const { token } = useParams(); 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
   const {
     register,
     handleSubmit,
@@ -35,15 +36,18 @@ export default function ResetPassword() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(`https://careconnect-api-v2kw.onrender.com/api/user/resetpassword/${token}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: data.email,
-          newPassword: data.newPassword,
-          confirm: data.confirm, 
-        }),
-      });
+      const response = await fetch(
+        `https://careconnect-api-v2kw.onrender.com/api/user/resetpassword/${token}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: data.email,
+            newPassword: data.newPassword,
+            confirm: data.confirm,
+          }),
+        }
+      );
 
       const result = await response.json();
 
@@ -55,7 +59,6 @@ export default function ResetPassword() {
       toast.success("Your password has been reset!");
       reset();
       setTimeout(() => navigate("/login"), 1500);
-     
     } catch (error) {
       console.error("Reset password error:", error);
       toast.error("Something went wrong. Please try again.");
@@ -120,7 +123,6 @@ export default function ResetPassword() {
             <button
               type="submit"
               className="mt-2 bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-200"
-              onClick={() => navigate("/")}
             >
               Reset Password
             </button>
