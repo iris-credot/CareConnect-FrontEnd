@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate,useParams} from "react-router-dom";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -22,8 +22,8 @@ const schema = z
 export default function ResetPassword() {
   useDocumentTitle("Reset-Password");
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+ const { token } = useParams();
+ 
 
   const {
     register,
