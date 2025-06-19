@@ -34,7 +34,7 @@ export default function SignUp(){
 
         <div className="md:bg-[#f3f5ff] h-screen overflow-hidden flex md:items-center  md:justify-center w-screen md:p-0 p-6 ">
           <div className="w-full max-w-4xl h-full md:h-auto bg-white rounded-xl flex md:flex-row flex-col p-2 md:gap-1 gap-14 ">
-        <div className="md:w-1/2 w-full flex flex-col p-2 md:bg-slate-100  rounded-md md:h-full h-[20%]">
+        <div className="md:w-1/2 w-full flex flex-col p-2 rounded-md md:h-full h-[20%] mt-44">
         <div className="w-full bg-white h-2/4 flex justify-center items-center">
             <img src={Icon} alt="" />
         </div>
@@ -132,7 +132,7 @@ export default function SignUp(){
   <div className="w-full mt-6  text-sm text-gray-600 max-w-md">
     <div className="flex gap-1">
       <p>Already have an account?</p>
-      <p className="text-blue-500 hover:underline cursor-pointer" onClick={() => navigate("/")}>Login</p>
+      <p className="text-blue-500 hover:underline cursor-pointer" onClick={() => navigate("/login")}>Login</p>
     </div>
   </div>
 </div>

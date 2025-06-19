@@ -40,11 +40,14 @@ import PatientFoods from './pages/patientFoods';
 import RequireAuth from './components/requireAuth';
 import PatientSports from './pages/patientSports';
 import CreateAppointmentDoctor from './pages/createAppointDoctor';
+import { Toaster } from 'react-hot-toast';
 function App() {
 
 
 
   return (
+     <>
+      <Toaster position="top-right" reverseOrder={false} />
     <Routes>
     {/* Public routes */}
    <Route path="/" element={<Home />} />
@@ -53,7 +56,7 @@ function App() {
     <Route path="/createdoc" element={<CreateDoctor />} />
     <Route path="/verify" element={<VerifyEmail />} />
     <Route path="/forgotpass" element={<ForgotPassword />} />
-    <Route path="/resetpass" element={<ResetPassword />} />
+    <Route path="/auth/reset" element={<ResetPassword />} />
     <Route path="/loading" element={<Loading />} />
     <Route path="*" element={<NotFound />} />
 
@@ -104,6 +107,7 @@ function App() {
       <Route path="settings/update-pass" element={<UpdatePassword />} />
     </Route>
   </Routes>
+   </>
   )
 }
 

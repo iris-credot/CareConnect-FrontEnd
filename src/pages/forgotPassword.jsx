@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import Icon from "../assets/icon.png";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +12,7 @@ const schema = z.object({
 
 export default function ForgotPassword() {
 
-    const navigate = useNavigate();
+  
   const {
     register,
     handleSubmit,
@@ -22,10 +22,30 @@ export default function ForgotPassword() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Password reset email requested for:", data.email);
-    alert("Password reset instructions have been sent to your email.");
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch(
+        "https://careconnect-api-v2kw.onrender.com/api/user/forgot",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        toast.error(result.message || "Failed to send reset link");
+        return;
+      }
+
+      toast.success(result.message || "Reset instructions sent to your email!");
+      reset();
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -67,7 +87,7 @@ export default function ForgotPassword() {
             <button
               type="submit"
               className="mt-4 bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-200"
-              onClick={() => navigate("/resetpass")}
+              
             >
               Send Reset Link
             </button>
